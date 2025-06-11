@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About - RochelleOS</title>
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Player Profile – Rochelle Lawson" />
+  <meta property="og:description" content="Explore Rochelle Lawson's frontend developer profile, skills, and interactive design journey." />
+  <meta property="og:image" content="../../public/images/metapp.png"/>
+  <meta property="og:url" content="https://yourdomain.com/about.html" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Orbitron Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Add Orbitron to Tailwind config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            orbitron: ['Orbitron', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    body, html {
+      cursor: none; /* Hide default cursor */
+    }
+
+    .custom-cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 20px;
+      height: 20px;
+      background-color: rgba(255, 20, 147, 0.7); /* neon pink */
+      border: 2px solid #ec4899; /* Tailwind pink-500 */
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform 0.1s ease;
+      box-shadow: 0 0 8px #ec4899, 0 0 16px #ec4899;
+    }
+
+
+    /* Ensure tiles stay horizontal on all screen sizes */
+    .tiles-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 1200px;
+      flex-wrap: nowrap;
+      padding: 0 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .tiles-container {
+        gap: 1rem;
+        padding: 0 0.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .tiles-container {
+        gap: 0.75rem;
+        padding: 0 0.25rem;
+      }
+    }
+
+    .tile {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  </style>
+</head>
+<body class="bg-[#0a0a0a] text-white font-orbitron min-h-screen flex flex-col justify-center items-center px-4 py-8">
+  <div class="absolute top-4 right-4 flex items-center space-x-2 md:space-x-3 z-50">
+    <img src="../../public/icons/volume.svg" alt="Volume" class="w-6 h-6 md:w-8 md:h-8" />
+    <img src="../../public/icons/battery.svg" alt="Battery" class="w-6 h-6 md:w-8 md:h-8" />
+    <span class="text-sm md:text-lg">21:07</span>
+  </div>
+
+  <!-- Changed from grid to flex container to keep horizontal layout -->
+  <div class="tiles-container">
+    <!-- About Me Tile -->
+    <div class="tile" data-page="about">
+      <div class="bg-black rounded-xl w-20 h-24 sm:w-24 sm:h-28 md:w-40 md:h-44 lg:w-44 lg:h-48 shadow-pink-500 shadow-lg hover:scale-105 transition">
+        <img src="../../public/icons/pfp.png" class="object-cover w-full h-full rounded-xl" alt="Profile" />
+      </div>
+      <p class="mt-1 sm:mt-2 md:mt-4 text-xs sm:text-sm md:text-base lg:text-lg text-center">About Me</p>
+    </div>
+
+    <!-- Projects Tile -->
+    <div class="tile" data-page="projects">
+      <div class="bg-black rounded-xl w-20 h-24 sm:w-24 sm:h-28 md:w-40 md:h-44 lg:w-44 lg:h-48 shadow-purple-500 shadow-lg hover:scale-105 transition">
+        <img src="../../public/icons/projects.png" class="object-cover w-full h-full rounded-xl" alt="Projects" />
+      </div>
+      <p class="mt-1 sm:mt-2 md:mt-4 text-xs sm:text-sm md:text-base lg:text-lg text-center">Projects</p>
+    </div>
+
+    <!-- Services Tile -->
+    <div class="tile" data-page="services">
+      <div class="bg-black rounded-xl w-20 h-24 sm:w-24 sm:h-28 md:w-40 md:h-44 lg:w-44 lg:h-48 shadow-teal-400 shadow-lg hover:scale-105 transition">
+        <img src="../../public/icons/services.png" class="object-cover w-full h-full rounded-xl" alt="Services" />
+      </div>
+      <p class="mt-1 sm:mt-2 md:mt-4 text-xs sm:text-sm md:text-base lg:text-lg text-center">Services</p>
+    </div>
+
+    <!-- CV Tile -->
+    <div class="tile" data-page="cv">
+      <div class="bg-black rounded-xl w-20 h-24 sm:w-24 sm:h-28 md:w-40 md:h-44 lg:w-44 lg:h-48 shadow-orange-400 shadow-lg hover:scale-105 transition">
+        <img src="../../public/icons/CV.png" class="object-cover w-full h-full rounded-xl" alt="CV" />
+      </div>
+      <p class="mt-1 sm:mt-2 md:mt-4 text-xs sm:text-sm md:text-base lg:text-lg text-center">CV</p>
+    </div>
+  </div>
+
+  <p class="absolute bottom-4 left-4 text-xs">RochelleOS v1.0</p>
+  <div class="custom-cursor" id="customCursor"></div>
+  <script type="module" src="./cursor.js"></script>
+  <script type="module" src="./menu.js"></script>
+</body>
+</html>

@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Loadout</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script type="module" src="./project-loadout.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            orbitron: ['Orbitron', 'sans-serif'],
+          },
+          animation: {
+            'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+          },
+          keyframes: {
+            'pulse-glow': {
+              '0%, 100%': {
+                boxShadow: '0 0 0px rgba(236, 72, 153, 0.6), 0 0 10px rgba(236, 72, 153, 0.7), 0 0 20px rgba(236, 72, 153, 0.8)'
+              },
+              '50%': {
+                boxShadow: '0 0 8px rgba(236, 72, 153, 0.8), 0 0 16px rgba(236, 72, 153, 0.9), 0 0 24px rgba(236, 72, 153, 1)'
+              }
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+  body, html {
+    cursor: none; /* Hide default cursor */
+  }
+
+  .custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background-color: rgba(255, 20, 147, 0.7); /* neon pink */
+    border: 2px solid #ec4899; /* Tailwind pink-500 */
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s ease;
+    box-shadow: 0 0 8px #ec4899, 0 0 16px #ec4899;
+  }
+
+  
+
+    /* Mobile responsive divider positioning */
+    .project-divider {
+      position: relative !important;
+      bottom: auto !important;
+      left: auto !important;
+      margin-top: 2rem !important;
+      margin-bottom: 2rem !important;
+    }
+
+    /* Adjust project spacing on mobile */
+    .project-section {
+      margin-bottom: 3rem !important;
+    }
+
+    /* Better text spacing on mobile */
+    .project-description {
+      padding-top: 1rem !important;
+      line-height: 1.6 !important;
+    }
+
+    /* Adjust difficulty level spacing */
+    .difficulty-section {
+      padding-top: 1.5rem !important;
+      padding-bottom: 1rem !important;
+    }
+
+  @media (max-width: 480px) {
+    .project-section {
+      margin-bottom: 2rem !important;
+    }
+    
+    .project-divider {
+      margin-top: 1.5rem !important;
+      margin-bottom: 1.5rem !important;
+    }
+  }
+
+  /* iframe-specific styles - detect small viewport that's likely an iframe */
+  @media (max-height: 600px) and (max-width: 800px) {
+    body {
+      font-size: 8px;
+      padding: 4px 8px !important;
+      min-height: 100vh !important;
+    }
+    
+    .iframe-header h1 {
+      font-size: 16px !important;
+      margin: 4px !important;
+    }
+    
+    .iframe-header .header-line {
+      height: 1px !important;
+    }
+    
+    .iframe-project-section {
+      flex-direction: row !important;
+      gap: 12px !important;
+      margin-bottom: 12px !important;
+    }
+    
+    .iframe-image-container {
+      width: 40% !important;
+      height: 120px !important;
+    }
+    
+    .iframe-text-content {
+      width: 60% !important;
+    }
+    
+    .iframe-project-title {
+      font-size: 14px !important;
+      margin-top: 0 !important;
+    }
+    
+    .iframe-build-title {
+      font-size: 10px !important;
+      padding: 2px 0 !important;
+    }
+    
+    .iframe-build-tags span {
+      font-size: 8px !important;
+      padding: 2px 4px !important;
+    }
+    
+    .iframe-difficulty-title {
+      font-size: 9px !important;
+      margin-bottom: 2px !important;
+    }
+    
+    .iframe-difficulty-bar {
+      height: 6px !important;
+    }
+    
+    /* Make progress bar background transparent */
+    .iframe-project-section .bg-gray-800 {
+      background-color: transparent !important;
+      height: 6px !important;
+    }
+    
+    .iframe-description {
+      font-size: 8px !important;
+      line-height: 1.3 !important;
+      padding-top: 4px !important;
+    }
+    
+    .iframe-divider {
+      margin: 8px 0 !important;
+      border-width: 1px !important;
+    }
+    
+    .iframe-bottom-border {
+      margin-top: 8px !important;
+      border-width: 2px !important;
+    }
+    
+    .iframe-bottom-buttons {
+      padding-top: 4px !important;
+      gap: 8px !important;
+    }
+    
+    .iframe-button {
+      font-size: 8px !important;
+      padding: 3px 6px !important;
+    }
+    
+    /* Keep hover effects in iframe but make them smaller */
+    .iframe-image-container .group:hover {
+      transform: scale(1.05) !important;
+    }
+    
+    /* Make "Hover to Play" button smaller and position at bottom right in iframe */
+    .iframe-image-container .absolute.bottom-2 {
+      font-size: 6px !important;
+      padding: 1px 3px !important;
+      bottom: 4px !important;
+      right: 4px !important;
+      left: auto !important;
+    }
+  }
+</style>
+</head>
+<body class="bg-[#0a0a0a] text-white font-orbitron px-4 md:px-6 py-4 min-h-screen">
+
+  <!-- Header -->
+  <div class="iframe-header w-full mb-8 md:mb-10 flex items-center">
+    <div class="header-line flex-grow h-1 bg-pink-500"></div>
+    <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mx-2 md:mx-4 text-pink-500 text-center">PROJECT LOADOUT</h1>
+    <div class="header-line flex-grow h-1 bg-pink-500"></div>
+  </div>
+
+  <!-- Project Section -->
+  <div class="iframe-project-section flex flex-col lg:flex-row justify-between gap-8 md:gap-12 mb-16 md:mb-24 project-section">
+    
+    <!-- Image + Hover Video -->
+<div class="iframe-image-container rounded-lg border border-pink-500 shadow-[0_0_20px_rgba(236,72,153,0.6)] w-full lg:w-[35%] relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden rounded-xl group transition-transform duration-500 hover:scale-110 lg:hover:scale-150 lg:hover:translate-x-1/4">
+    
+  <!-- Static Thumbnail -->
+  <img src="../../public/images/dermacastsc.png" alt="Dermacast App"
+       class="absolute top-0 left-0 w-full h-full object-cover z-10 group-hover:opacity-0 transition-opacity duration-500" />
+
+  <!-- Hover Video -->
+  <video muted loop preload="metadata"
+         class="absolute top-0 left-0 w-full h-full object-contain z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-4xl"
+         onmouseenter="this.play()" onmouseleave="this.pause(); this.currentTime=0;">
+    <source src="../../public/videos/dermacastvid.mp4" type="video/mp4" />
+
+  </video>
+  <div class="absolute bottom-2 left-2 bg-pink-500 text-black text-xs font-bold px-3 py-1 rounded shadow-lg z-10">
+  ▶ Hover to Play
+</div>
+</div>
+
+    <!-- Text Content -->
+    <div class="iframe-text-content w-full lg:w-[60%] flex flex-col justify-start space-y-4 md:space-y-6">
+      <!-- Project Title -->
+      <div class="mt-0 md:mt-[-10px]">
+        <h2 class="iframe-project-title text-2xl md:text-3xl font-bold text-pink-500">DERMACAST</h2>
+      </div>
+
+      <!-- Build Stack -->
+      <div>
+        <p class="iframe-build-title font-semibold mb-1 uppercase pb-2 md:pb-3 pt-2 md:pt-3 text-lg md:text-xl">Build</p>
+        <div class="iframe-build-tags flex flex-wrap gap-2">
+          <span class="border border-pink-500 px-2 md:px-3 py-1 rounded text-xs md:text-sm">HTML</span>
+          <span class="border border-pink-500 px-2 md:px-3 py-1 rounded text-xs md:text-sm">Tailwind CSS</span>
+          <span class="border border-pink-500 px-2 md:px-3 py-1 rounded text-xs md:text-sm">JavaScript</span>
+          <span class="border border-pink-500 px-2 md:px-3 py-1 rounded text-xs md:text-sm">OpenWeather API</span>
+        </div>
+      </div>
+
+      <!-- Difficulty Level -->
+      <div class="pt-4 md:pt-8 difficulty-section">
+        <p class="iframe-difficulty-title font-semibold mb-2 text-pink-400 uppercase text-lg md:text-base">Difficulty Level</p>
+        <div class="w-full bg-gray-800 h-3 rounded-full mb-2">
+          <div class="iframe-difficulty-bar bg-pink-500 h-full rounded-full" style="width: 50%;"></div>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <p class="iframe-description text-sm md:text-base leading-loose text-justify pt-2 project-description">
+        People with different skin types, such as eczema, often do not know how the weather affects their skin. As someone who also suffers from seasonal dry skin in the winter, I thought it would be beneficial to create an app that provides advice tailored to individual skin types. 
+        And that is exactly what I did. I built an app using the OpenWeather API and JavaScript that allows users to select their skin type and receive weather based skincare suggestions.
+
+        <br /><br />
+       Built using: OpenWeather API, HTML, Tailwind CSS and JavaScript
+       This project helped improve my skills in working with APIs and solidified my understanding of conditional logic in JavaScript, as well as mobile responsive design. It also deepened my understanding of responsive layouts and real world use cases.
+      </p>
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <div class="iframe-divider w-full border-t-4 border-pink-500 my-8 md:my-12 project-divider"></div>
+
+<!-------------next project-------------->
+
+  <!-- Project Section -->
+  <div class="iframe-project-section flex flex-col lg:flex-row justify-between gap-8 md:gap-12 mb-16 md:mb-24 project-section">
+    <!-- Image + Hover Video -->
+<div class="iframe-image-container rounded-lg border border-teal-400 shadow-[0_0_20px_rgba(45,212,191,0.6)] w-full lg:w-[35%] relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden rounded-xl group transition-transform duration-500 hover:scale-110 lg:hover:scale-150 lg:hover:translate-x-1/4">
+  <!-- Static Thumbnail -->
+  <img src="../../public/images/consolesc.png" alt="Console App"
+       class="absolute top-0 left-0 w-full h-full object-cover z-10 group-hover:opacity-0 transition-opacity duration-500" />
+
+  <!-- Hover Video -->
+  <video muted loop preload="metadata"
+         class="absolute top-0 left-0 w-full h-full object-contain z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-4xl"
+         onmouseenter="this.play()" onmouseleave="this.pause(); this.currentTime=0;">
+    <source src="../../public/videos/blendervid.mp4" type="video/mp4" />
+  </video>
+  <div class="absolute bottom-2 left-2 bg-teal-400 text-black text-xs font-bold px-3 py-1 rounded shadow-lg z-10">
+  ▶ Hover to Play
+</div>
+
+</div>
+
+    <!-- Text Content -->
+    <div class="iframe-text-content w-full lg:w-[60%] flex flex-col justify-start space-y-4 md:space-y-6">
+      <!-- Project Title -->
+      <div class="mt-0 md:mt-[-10px]">
+        <h2 class="iframe-project-title text-2xl md:text-3xl font-bold text-pink-500">PORTFOLIO</h2>
+      </div>
+
+      <!-- Build Stack -->
+      <div>
+        <p class="iframe-build-title font-semibold mb-1 uppercase pb-2 md:pb-3 pt-2 md:pt-3 text-lg md:text-xl">Build</p>
+        <div class="iframe-build-tags flex flex-wrap gap-2">
+          <span class="border border-pink-500 px-2 md:px-3 py-1 rounded text-xs md:text-sm">HTML</span>
+          <span class="border border-pink-500 px-2 md:px-3 py-1 rounded text-xs md:text-sm">Tailwind CSS</span>
+          <span class="border border-pink-500 px-2 md:px-3 py-1 rounded text-xs md:text-sm">JavaScript</span>
+          <span class="border border-pink-500 px-2 md:px-3 py-1 rounded text-xs md:text-sm">Three JS</span>
+          <span class="border border-pink-500 px-2 md:px-3 py-1 rounded text-xs md:text-sm">Figma</span>
+          <span class="border border-pink-500 px-2 md:px-3 py-1 rounded text-xs md:text-sm">Blender</span>
+        </div>
+      </div>
+
+      <!-- Difficulty Level -->
+      <div class="pt-4 md:pt-8 difficulty-section">
+        <p class="iframe-difficulty-title font-semibold mb-2 text-pink-400 uppercase text-sm md:text-base">Difficulty Level</p>
+        <div class="w-full bg-gray-800 h-3 rounded-full mb-2">
+          <div class="iframe-difficulty-bar bg-teal-400 h-full rounded-full" style="width: 80%;"></div>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <p class="iframe-description text-sm md:text-base leading-relaxed text-justify pt-2 project-description">
+       When it came to deciding and drafting my portfolio, I always knew I did not want to go with the standard design style. I wanted to make my portfolio stand out. I wanted to create a unique experience that was a true reflection of my creative talents and personality.
+       I decided to base my portfolio on an immersive gaming experience. As someone who grew up playing Nintendo Wii games like Mario Kart, I wanted my portfolio to mimic the experience of a gaming console, allowing me to tap into my childhood nostalgia. That is why I included features such as game tiles for each project, a home menu, and a combination of 2D and 3D elements to simulate launching a game when viewing my work.
+
+        <br /><br />
+       Built using: Figma, Blender, Tailwind CSS, HTML and Three JS
+       This project introduced me to the integration of 3D design into web interfaces, strengthening my skills in user interface design, animation planning, and layout structure. I also learned the art of storytelling through user experience.
+      </p>
+    </div>
+  </div>
+
+  <div class="iframe-divider w-full border-t-4 border-pink-500 my-8 md:my-12 project-divider"></div>
+
+<!----------next project---------->
+
+<!-- Project Section -->
+  <div class="iframe-project-section flex flex-col lg:flex-row justify-between gap-8 md:gap-12 mb-16 md:mb-24 project-section">
+    <!-- Image + Hover Video -->
+<div class="iframe-image-container rounded-lg border border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.6)] w-full lg:w-[35%] relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden rounded-xl group transition-transform duration-500 hover:scale-110 lg:hover:scale-150 lg:hover:translate-x-1/4">
+  <!-- Static Thumbnail -->
+  <img src="../../public/images/rbllsc.png" alt="RBLL App"
+       class="absolute top-0 left-0 w-full h-full object-cover z-10 group-hover:opacity-0 transition-opacity duration-500" />
+
+  <!-- Hover Video -->
+  <video muted loop preload="metadata"
+         class="absolute top-0 left-0 w-full h-full object-contain z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-4xl"
+         onmouseenter="this.play()" onmouseleave="this.pause(); this.currentTime=0;">
+    <source src="../../public/videos/rbllvid.mp4" type="video/mp4" />
+  
+  </video>
+  <div class="absolute bottom-2 left-2 bg-purple-500 text-black text-xs font-bold px-3 py-1 rounded shadow-lg z-10">
+  ▶ Hover to Play
+</div>
+</div>
+
+    <!-- Text Content -->
+    <div class="iframe-text-content w-full lg:w-[60%] flex flex-col justify-start space-y-4 md:space-y-6">
+      <!-- Project Title -->
+      <div class="mt-0 md:mt-[-10px]">
+        <h2 class="iframe-project-title text-xl sm:text-2xl md:text-3xl font-bold text-pink-500">RBL LOUNGE LANDING PAGE</h2>
+      </div>
+
+      <!-- Build Stack -->
+      <div>
+        <p class="iframe-build-title font-semibold mb-1 uppercase pb-2 md:pb-3 pt-2 md:pt-3 text-lg md:text-xl">Build</p>
+        <div class="iframe-build-tags flex flex-wrap gap-2">
+          <span class="border border-pink-500 px-2 md:px-3 py-1 rounded text-xs md:text-sm">HTML</span>
+          <span class="border border-pink-500 px-2 md:px-3 py-1 rounded text-xs md:text-sm">Tailwind CSS</span>
+        </div>
+      </div>
+
+      <!-- Difficulty Level -->
+      <div class="pt-4 md:pt-8 difficulty-section">
+        <p class="iframe-difficulty-title font-semibold mb-2 text-pink-400 uppercase text-sm md:text-base">Difficulty Level</p>
+        <div class="w-full bg-gray-800 h-3 rounded-full mb-2">
+          <div class="iframe-difficulty-bar bg-purple-500 h-full rounded-full" style="width: 20%;"></div>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <p class="iframe-description text-sm md:text-base leading-relaxed text-justify pt-2 project-description">
+        Many small businesses struggle with having a clear, professional landing page that showcases their services.
+        That is why I decided to create a one page, responsive landing page for a hair business. It highlights the services, includes a clear call to action, and uses a clean visual hierarchy.
+        <br /><br />
+       Built using: HTML and Tailwind CSS
+       This project helped me understand business needs, how to structure marketing driven layouts, and how to make websites mobile friendly and client ready. I also explored colour schemes and selected tones that complemented the overall design effectively.
+      </p>
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <div class="iframe-divider w-full border-t-4 border-pink-500 my-8 md:my-12 project-divider"></div>
+
+<!-------------next project-------------->
+
+<!-- Project Section -->
+  <div class="iframe-project-section flex flex-col lg:flex-row justify-between gap-8 md:gap-12 mb-16 md:mb-24 project-section">
+    <!-- Image + Hover Video -->
+<div class="iframe-image-container rounded-lg border border-orange-400 shadow-[0_0_20px_rgba(251,146,60,0.6)] w-full lg:w-[35%] relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden rounded-xl group transition-transform duration-500 hover:scale-110 lg:hover:scale-150 lg:hover:translate-x-1/4">
+  <!-- Static Thumbnail -->
+  <img src="../../public/images/therbleditsc.png" alt="RBL Edit App"
+       class="absolute top-0 left-0 w-full h-full object-cover z-10 group-hover:opacity-0 transition-opacity duration-500" />
+
+  <!-- Hover Video -->
+  <video muted loop preload="metadata"
+         class="absolute top-0 left-0 w-full h-full object-contain z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-4xl"
+         onmouseenter="this.play()" onmouseleave="this.pause(); this.currentTime=0;">
+    <source src="../../public/videos/rbleditvid.mp4" type="video/mp4" />
+
+  </video>
+  <div class="absolute bottom-2 left-2 bg-orange-400 text-black text-xs font-bold px-3 py-1 rounded shadow-lg z-10">
+  ▶ Hover to Play
+</div>
+</div>
+
+    <!-- Text Content -->
+    <div class="iframe-text-content w-full lg:w-[60%] flex flex-col justify-start space-y-4 md:space-y-6">
+      <!-- Project Title -->
+      <div class="mt-0 md:mt-[-10px]">
+        <h2 class="iframe-project-title text-xl sm:text-2xl md:text-3xl font-bold text-pink-500">The RBL EDIT WORDPRESS PAGE</h2>
+      </div>
+
+      <!-- Build Stack -->
+      <div>
+        <p class="iframe-build-title font-semibold mb-1 uppercase pb-2 md:pb-3 pt-2 md:pt-3 text-lg md:text-xl">Build</p>
+        <div class="iframe-build-tags flex flex-wrap gap-2">
+          <span class="border border-pink-500 px-2 md:px-3 py-1 rounded text-xs md:text-sm">Wordpress</span>
+          <span class="border border-pink-500 px-2 md:px-3 py-1 rounded text-xs md:text-sm">Elementor</span>
+          <span class="border border-pink-500 px-2 md:px-3 py-1 rounded text-xs md:text-sm">OceanWP</span>
+        </div>
+      </div>
+
+      <!-- Difficulty Level -->
+      <div class="pt-4 md:pt-8 difficulty-section">
+        <p class="iframe-difficulty-title font-semibold mb-2 text-pink-400 uppercase text-sm md:text-base">Difficulty Level</p>
+        <div class="w-full bg-gray-800 h-3 rounded-full mb-2">
+          <div class="iframe-difficulty-bar bg-orange-400 h-full rounded-full" style="width: 40%;"></div>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <p class="iframe-description text-sm md:text-base leading-relaxed text-justify pt-2 project-description">
+       Many clothing brands or e-commerce sites need an easy to manage website that balances style and usability. I wanted to simulate a site that I could build for a future client.
+       I used WordPress with Elementor to showcase a mock fashion brand, focusing on product layout, branding, and responsive design.
+
+        <br /><br />
+       Built using: WordPress, Elementor, Ocean WP
+       This project taught me how to use drag and drop editors like Elementor, create rich content pages quickly, and manage a site's visual identity through WordPress.
+      </p>
+    </div>
+  </div>
+
+  <!-- Divider -->
+ <div class="iframe-divider w-full border-t-4 border-pink-500 my-8 md:my-12 project-divider"></div>
+
+<!-------------next project-------------->
+
+<!-- Project Section -->
+  <div class="iframe-project-section flex flex-col lg:flex-row justify-between gap-8 md:gap-12 mb-16 md:mb-24 project-section">
+    <!-- Image + Hover Video -->
+<div class="iframe-image-container rounded-lg border border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.6)] w-full lg:w-[35%] relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden rounded-xl group transition-transform duration-500 hover:scale-110 lg:hover:scale-150 lg:hover:translate-x-1/4">
+  <!-- Static Thumbnail -->
+  <img src="../../public/images/todosc.png" alt="ToDo App"
+       class="absolute top-0 left-0 w-full h-full object-cover z-10 group-hover:opacity-0 transition-opacity duration-500" />
+
+  <!-- Hover Video -->
+  <video muted loop preload="metadata"
+         class="absolute top-0 left-0 w-full h-full object-contain z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-4xl"
+         onmouseenter="this.play()" onmouseleave="this.pause(); this.currentTime=0;">
+    <source src="../../public/videos/ToDovid.mp4" type="video/mp4" />
+  </video>
+  <div class="absolute bottom-2 left-2 bg-blue-500 text-black text-xs font-bold px-3 py-1 rounded shadow-lg z-10">
+  ▶ Hover to Play
+</div>
+
+</div>
+
+    <!-- Text Content -->
+    <div class="iframe-text-content w-full lg:w-[60%] flex flex-col justify-start space-y-4 md:space-y-6">
+      <!-- Project Title -->
+      <div class="mt-0 md:mt-[-10px]">
+        <h2 class="iframe-project-title text-2xl md:text-3xl font-bold text-pink-500">TO DO LIST APP</h2>
+      </div>
+
+      <!-- Build Stack -->
+      <div>
+        <p class="iframe-build-title font-semibold mb-1 uppercase pb-2 md:pb-3 pt-2 md:pt-3 text-lg md:text-xl">Build</p>
+        <div class="iframe-build-tags flex flex-wrap gap-2">
+          <span class="border border-pink-500 px-2 md:px-3 py-1 rounded text-xs md:text-sm">HTML</span>
+          <span class="border border-pink-500 px-2 md:px-3 py-1 rounded text-xs md:text-sm">CSS</span>
+          <span class="border border-pink-500 px-2 md:px-3 py-1 rounded text-xs md:text-sm">JavaScript</span>
+        </div>
+      </div>
+
+      <!-- Difficulty Level -->
+      <div class="pt-4 md:pt-8 difficulty-section">
+        <p class="iframe-difficulty-title font-semibold mb-2 text-pink-400 uppercase text-sm md:text-base">Difficulty Level</p>
+        <div class="w-full bg-gray-800 h-3 rounded-full mb-2">
+          <div class="iframe-difficulty-bar bg-blue-500 h-full rounded-full" style="width: 40%;"></div>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <p class="iframe-description text-sm md:text-base leading-relaxed text-justify pt-2 project-description">
+       As this was the first project I worked on, I wanted to create something simple to apply basic interactivity, DOM manipulation, and JavaScript logic.
+       This led me to build a clean to do list app that lets users add, mark, and remove tasks. It was also designed for both desktop and mobile.
+        <br /><br />
+        Built using: HTML, CSS and JavaScript
+        This project gave me the confidence that I could apply what I had been teaching myself for months. It also solidified my foundational understanding by putting my knowledge into practice in areas such as DOM manipulation, user input handling, and the concept of updating the interface in real time.
+      </p>
+    </div>
+  </div>
+
+  <!-- Bottom Border Above Back Button -->
+  <div class="iframe-bottom-border w-full border-t-4 border-pink-500 mt-12"></div>
+
+  <!-- Back Button and CV Download Button Container -->
+  <div class="iframe-bottom-buttons flex flex-col sm:flex-row justify-between items-start sm:items-center pt-4 gap-4 sm:gap-0">
+    <!-- Back Button -->
+    <a id="back" href="menu.html" class="iframe-button btn-accessible border border-pink-500 text-white px-4 py-2 rounded text-sm transition-all duration-300 transform hover:scale-105 hover:bg-pink-700 animate-pulse-glow">
+      &larr; Back to Menu
+    </a>
+    
+    <!-- Save Game Button -->
+    <a 
+      href="../../public/cv/RochellesCVTech.pdf" 
+      aria-label="Download CV"
+      download 
+      class="iframe-button btn-accessible gap-2 border border-pink-500 text-white px-5 py-2 rounded text-sm transition-all duration-300 transform hover:scale-105 hover:bg-pink-700 animate-pulse-glow flex items-center focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
+    >
+      💾 Save Game (Download CV)
+    </a>
+  </div>
+
+  <div class="custom-cursor" id="customCursor"></div>
+ <script type="module" src="./cursor.js"></script>
+<script type="module" src="./project-loadout.js"></script>
+</body>
+</html>

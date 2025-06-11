@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects</title>
+  <script type="module" src="./projects.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            orbitron: ['Orbitron', 'sans-serif'],
+          },
+          animation: {
+            'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+          },
+          keyframes: {
+            'pulse-glow': {
+              '0%, 100%': {
+                boxShadow: '0 0 0px rgba(236, 72, 153, 0.6), 0 0 10px rgba(236, 72, 153, 0.7), 0 0 20px rgba(236, 72, 153, 0.8)'
+              },
+              '50%': {
+                boxShadow: '0 0 8px rgba(236, 72, 153, 0.8), 0 0 16px rgba(236, 72, 153, 0.9), 0 0 24px rgba(236, 72, 153, 1)'
+              }
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+  body, html {
+    cursor: none; /* Hide default cursor */
+  }
+
+  .custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background-color: rgba(255, 20, 147, 0.7); /* neon pink */
+    border: 2px solid #ec4899; /* Tailwind pink-500 */
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s ease;
+    box-shadow: 0 0 8px #ec4899, 0 0 16px #ec4899;
+  }
+
+  
+
+  /* iframe-specific styles - detect small viewport that's likely an iframe */
+  @media (max-height: 600px) and (max-width: 800px) {
+    body {
+      font-size: 8px;
+      padding: 8px 12px !important;
+      min-height: auto !important;
+    }
+    
+    .iframe-header h1 {
+      font-size: 20px !important;
+      margin: 6px !important;
+    }
+    
+    .iframe-header .header-line {
+      height: 1px !important;
+    }
+    
+    .iframe-container {
+      max-width: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      padding-top: 4px !important;
+    }
+    
+    .iframe-content {
+      padding-top: 4px !important;
+    }
+    
+    .iframe-text {
+      font-size: 11px !important;
+      line-height: 1.4 !important;
+      padding: 4px 0 !important;
+    }
+    
+    .iframe-button-container {
+      padding-top: 8px !important;
+    }
+    
+    .iframe-button {
+      font-size: 10px !important;
+      padding: 6px 12px !important;
+    }
+    
+    .iframe-button-container p {
+      margin-top: 4px !important;
+      font-size: 8px !important;
+    }
+    
+    .iframe-divider {
+      bottom: 40px !important;
+      border-width: 1px !important;
+    }
+    
+    .iframe-bottom-buttons {
+      bottom: 8px !important;
+      padding: 0 8px !important;
+    }
+    
+    .iframe-back-button,
+    .iframe-save-button {
+      font-size: 8px !important;
+      padding: 4px 8px !important;
+    }
+    
+    .iframe-save-button span {
+      font-size: 8px !important;
+    }
+  }
+</style>
+
+
+</head>
+<body class="bg-[#0a0a0a] text-white font-orbitron px-4 sm:px-6 py-4 min-h-screen">
+  <div class="iframe-header w-full mb-4 sm:mb-6 flex items-center">
+    <div class="header-line flex-grow h-1 bg-pink-500"></div>
+    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-bold mx-2 sm:mx-4 text-pink-500 whitespace-nowrap">CV</h1>
+    <div class="header-line flex-grow h-1 bg-pink-500"></div>
+  </div>
+
+  <div class="iframe-container w-full max-w-4xl mx-auto text-justify pt-4 sm:pt-[5vh]">
+    <h3 class="iframe-text text-2xl sm:text-xl text-white iframe-content">
+   If you are looking for a creative and motivated frontend developer with a strong eye for design and a user first mindset, I would love to connect. I am open to junior roles, internships, or freelance projects. Let's build something great together.
+    </h3>
+    
+<div class="iframe-button-container view flex flex-col items-center pt-8 sm:pt-[15vh]">   
+  <!-- Button --> 
+  <a href="../../public/cv/RochellesCVTech.pdf" download    
+     id="cvButton"
+     class="iframe-button bg-pink-300 text-black px-8 py-3 rounded shadow-[0_0_15px_rgba(236,72,153,0.6)] hover:bg-pink-600 hover:scale-105 transition duration-300 ease-in-out text-sm font-bold tracking-wide animate-pulse"    
+     data-aos="zoom-in" data-aos-delay="200">   
+    📄 View CV 
+  </a> 
+
+  <!-- Message under button -->
+  <p class="text-xs text-pink-300 mt-4 animate-fade-in-up" data-aos="fade-up" data-aos-delay="300">
+    Level completed! Let's build the next one together
+  </p>
+
+</div>
+</div>
+
+    <!-- Pink Line Divider just above Back to Menu -->
+  <div class="iframe-divider absolute bottom-16 sm:bottom-20 left-0 w-full border-t-2 sm:border-t-4 border-pink-500"></div>
+
+  <!-- Fixed Back Button Bottom Left -->
+  <!-- Aligned Bottom Button Row -->
+<div class="iframe-bottom-buttons fixed bottom-4 sm:bottom-6 left-0 right-0 px-3 sm:px-6 flex justify-between items-center z-50">
+
+  <!-- Back Button -->
+  <a id="back" href="menu.html"
+     class="iframe-back-button border border-pink-500 text-white px-3 sm:px-4 py-2 rounded text-xs sm:text-sm transition-all duration-300 transform hover:scale-105 hover:bg-pink-700 animate-pulse-glow">
+    &larr; Back to Menu
+  </a>
+
+  <!-- Game Completed Button -->
+  <a href="start.html" aria-label="Game Completed"
+     class="iframe-save-button gap-1 sm:gap-2 border border-pink-500 text-white px-3 sm:px-5 py-2 rounded text-xs sm:text-sm transition-all duration-300 transform hover:scale-105 hover:bg-pink-700 animate-pulse-glow flex items-center focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2">
+    <span class="hidden sm:inline">Game Completed</span>
+    <span class="sm:hidden">Game Completed</span>
+  </a>
+
+</div>
+  
+  <div class="custom-cursor" id="customCursor"></div>
+ <script type="module" src="./cursor.js"></script>
+  <script type="module" src="./cv.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

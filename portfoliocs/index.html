@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="color-scheme" content="dark">
+  <title>3D + 2D Portfolio</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      background: #000000 !important; /* Force black background */
+      color: white;
+    }
+
+    canvas {
+      display: block;
+    }
+
+    #iframe {
+      position: absolute;
+      width: 95px;
+      height: 60px;
+      pointer-events: none;
+      border: none;
+      z-index: 999;
+      transform: translate(-50%, -50%) rotate(180) scale(1);
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      pointer-events: auto;
+      background: #000000 !important; /* Force black background */
+      border: none;
+      border-radius: 12px;
+    }
+
+    html {
+      background: #000000 !important; /* Force black background */
+      color-scheme: dark;
+    }
+
+    /* Ensure all elements have dark background */
+    * {
+      background-color: transparent !important;
+    }
+    
+    body {
+      background-color: #000000 !important;
+    }
+  </style>
+</head>
+<body style="background: #000000 !important;">
+  
+  <iframe id="iframe" src="./ui/start.html" allowtransparency="false"
+  frameborder="0" style="background: #000000 !important;"></iframe>
+  <script type="module" src="main.js"></script>
+</body>
+</html>

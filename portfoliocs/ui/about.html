@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About - RochelleOS</title>
+
+  <!-- Open Graph Meta Tags -->
+<meta property="og:title" content="Player Profile – Rochelle Lawson" />
+<meta property="og:description" content="Explore Rochelle Lawson's frontend developer profile, skills, and interactive design journey." />
+<meta property="og:image" content="../../public/images/metapp.png"/>
+<meta property="og:url" content="https://yourdomain.com/about.html" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Orbitron Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            orbitron: ['Orbitron', 'sans-serif'],
+          },
+          animation: {
+            'fade-in': 'fade-in 1s ease-out forwards',
+            'pulse-glow': 'pulse-glow 2s ease-in-out infinite'
+          },
+          keyframes: {
+            'fade-in': {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' }
+            },
+            'pulse-glow': {
+              '0%, 100%': {
+                boxShadow: '0 0 0px rgba(236, 72, 153, 0.6), 0 0 10px rgba(236, 72, 153, 0.7), 0 0 20px rgba(236, 72, 153, 0.8)'
+              },
+              '50%': {
+                boxShadow: '0 0 8px rgba(236, 72, 153, 0.8), 0 0 16px rgba(236, 72, 153, 0.9), 0 0 24px rgba(236, 72, 153, 1)'
+              }
+            }
+          }
+        }
+      },
+      plugins: [
+        function ({ addComponents }) {
+          addComponents({
+            '.btn-accessible': {
+              '@apply focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2': {},
+            }
+          })
+        }
+      ]
+    }
+  </script>
+<style>
+  body, html {
+    cursor: none; /* Hide default cursor */
+  }
+
+  .custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background-color: rgba(255, 20, 147, 0.7); /* neon pink */
+    border: 2px solid #ec4899; /* Tailwind pink-500 */
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s ease;
+    box-shadow: 0 0 8px #ec4899, 0 0 16px #ec4899;
+  }
+
+ 
+
+  /* iframe-specific styles - force horizontal layout like desktop */
+  @media (max-height: 600px) and (max-width: 800px) {
+    body {
+      font-size: 8px;
+      padding: 8px 12px;
+    }
+    
+    .iframe-header h1 {
+      font-size: 20px !important;
+      margin: 6px !important;
+    }
+    
+    .iframe-header .header-line {
+      height: 1px !important;
+    }
+    
+    .iframe-layout {
+      flex-direction: row !important;
+      gap: 16px !important;
+      margin-bottom: 8px !important;
+    }
+    
+    .iframe-sidebar {
+      width: 35% !important;
+      max-width: none !important;
+      gap: 8px !important;
+    }
+    
+    .iframe-content {
+      width: 65% !important;
+      max-width: none !important;
+    }
+    
+    .iframe-image {
+      width: 100px !important;
+      height: 100px !important;
+    }
+    
+    .iframe-image-label {
+      font-size: 10px !important;
+      padding: 3px 8px !important;
+    }
+    
+    .iframe-stats {
+      padding: 12px !important;
+      max-width: none !important;
+      width: 100% !important;
+      border: 4px solid #ec4899 !important;
+      background: rgba(0, 0, 0, 0.3) !important;
+      outline: none !important;
+      box-shadow: none !important;
+      border-radius: 8px !important;
+      background-clip: padding-box !important;
+    }
+    
+    .iframe-stats::before,
+    .iframe-stats::after {
+      display: none !important;
+    }
+    
+    .iframe-stats *,
+    .iframe-stats *::before,
+    .iframe-stats *::after {
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+      background-clip: padding-box !important;
+    }
+    
+    .iframe-stats .progress-bar {
+      height: 8px !important;
+    }
+    
+    /* Replace grey background with transparent and make pink bars standalone */
+    .iframe-stats .bg-gray-800 {
+      background-color: transparent !important;
+      height: 8px !important;
+    }
+    
+    .iframe-stats .bg-pink-500 {
+      border-radius: 4px !important;
+      height: 8px !important;
+    }
+    
+    .iframe-stats h2 {
+      font-size: 14px !important;
+    }
+    
+    .iframe-stats p {
+      font-size: 10px !important;
+      margin-bottom: 4px !important;
+    }
+    
+    .iframe-stats .progress-bar {
+      height: 8px !important;
+    }
+    
+    .iframe-name {
+      font-size: 13px !important;
+    }
+    
+    .iframe-role {
+      font-size: 9px !important;
+      margin-top: 3px !important;
+    }
+    
+    .iframe-section-title {
+      font-size: 12px !important;
+      margin-bottom: 4px !important;
+    }
+    
+    .iframe-text {
+      font-size: 9px !important;
+      line-height: 1.4 !important;
+      margin-bottom: 8px !important;
+    }
+    
+    .iframe-border {
+      margin-top: 12px !important;
+      border-width: 2px !important;
+    }
+    
+    .iframe-button {
+      font-size: 8px !important;
+      padding: 4px 8px !important;
+    }
+    
+    .iframe-spaces {
+      margin-bottom: 6px !important;
+    }
+    
+    .iframe-spaces-small {
+      margin-bottom: 3px !important;
+    }
+    
+    /* Ensure content is visible */
+    #dialogueBox {
+      opacity: 1 !important;
+    }
+    
+    .reveal-on-scroll {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
+  }
+</style>
+
+</head>
+
+<body class="bg-[#0a0a0a] text-white font-orbitron px-6 py-4">
+  <!-- Header with lines -->
+  <div class="iframe-header flex items-center w-full mb-6">
+    <div class="header-line flex-grow h-1 bg-pink-500"></div>
+    <h1 class="text-5xl lg:text-6xl font-bold mx-4 text-pink-500 whitespace-nowrap">PLAYER PROFILE</h1>
+    <div class="header-line flex-grow h-1 bg-pink-500"></div>
+  </div>
+
+  <!-- Full Width Layout -->
+  <div class="iframe-layout flex flex-col lg:flex-row justify-between gap-8 w-full">
+    <!-- Image Stack Left -->
+    <div class="iframe-sidebar w-full lg:w-1/3 flex flex-col items-center space-y-6">
+      <div class="flex flex-col items-center space-y-2 animate-fade-in iframe-spaces">
+        <div class="iframe-image w-60 h-60 shadow-[0_0_25px_5px_rgba(236,72,153,0.4)] overflow-hidden rounded-lg transition-transform duration-500 transform hover:scale-105">
+          <img src="../../public/images/MEg1.webp" alt="Player 1" loading="lazy"  class="w-full h-full object-cover" />
+        </div>
+        <div class="iframe-image-label border border-pink-500 px-4 py-1 rounded-lg">
+          <p class="text-center text-sm text-white">PLAYER 1</p>
+        </div>
+      </div>
+      <div class="flex flex-col items-center space-y-2 animate-fade-in iframe-spaces">
+        <div class="iframe-image w-60 h-60 shadow-[0_0_25px_5px_rgba(236,72,153,0.4)] overflow-hidden rounded-lg transition-transform duration-500 transform hover:scale-105">
+          <img src="../../public/images/MEb1.jpg" alt="Player 2"  loading="lazy" class="w-full h-full object-cover" />
+        </div>
+        <div class="iframe-image-label border border-pink-500 px-4 py-1 rounded-lg">
+          <p class="text-center text-sm text-white">PLAYER 2</p>
+        </div>
+      </div>
+      
+      <div class="iframe-stats w-full max-w-xs p-4 border border-pink-500 rounded-lg bg-black bg-opacity-30 space-y-3 animate-fade-in">
+        <h2 class="text-xl font-bold text-pink-500 text-center">STATS</h2>
+
+        <div class="iframe-spaces-small">
+          <p class="text-sm mb-1">HTML & CSS</p>
+          <div class="w-full bg-gray-800 rounded-full h-3">
+            <div class="progress-bar bg-pink-500 h-3 rounded-full w-[90%]"></div>
+          </div>
+        </div>
+
+        <div class="iframe-spaces-small">
+          <p class="text-sm mb-1">JavaScript</p>
+          <div class="w-full bg-gray-800 rounded-full h-3">
+            <div class="progress-bar bg-pink-500 h-3 rounded-full w-[80%]"></div>
+          </div>
+        </div>
+
+        <div class="iframe-spaces-small">
+          <p class="text-sm mb-1">Three JS</p>
+          <div class="w-full bg-gray-800 rounded-full h-3">
+            <div class="progress-bar bg-pink-500 h-3 rounded-full w-[75%]"></div>
+          </div>
+        </div>
+
+        <div class="iframe-spaces-small">
+          <p class="text-sm mb-1">UX/UI Design</p>
+          <div class="w-full bg-gray-800 rounded-full h-3">
+            <div class="progress-bar bg-pink-500 h-3 rounded-full w-[85%]"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Text Content -->
+    <div class="iframe-content w-full lg:w-2/3 text-lg leading-relaxed space-y-6 animate-fade-in text-justify transition-opacity duration-1000 opacity-0" id="dialogueBox">
+      <!-- Name/Role/Skill Block -->
+      <div class="text-justify max-w-3xl mb-6 iframe-spaces">
+        <h2 class="iframe-name text-4xl font-bold text-white" id="typewriter-name"></h2>
+        <p class="iframe-role text-xl text-white mt-2">ROLE: Frontend Developer, UX/UI DESIGN & WEB DEVELOPMENT</p>
+        <p class="iframe-role text-xl text-white">SKILL: Building Interactive UIs</p>
+      </div>
+      <div class="opacity-0 translate-y-6 transition-all duration-1000 ease-in-out reveal-on-scroll iframe-spaces">
+       <h3 class="iframe-section-title text-2xl font-semibold text-white">About Me</h3>
+      
+        <p class="iframe-text leading-loose mb-6">
+        Hi i'm Rochelle, a self taught frontend developer and a Law and Business graduate, with a growing passion for tech, design, and creative problem solving. In early 2025, I made the decision to seriously transition into the tech space, driven by the desire to find a career that not only challenges me intellectually but also allows me to express my creativity.
+        I began teaching myself the basics, starting with HTML and CSS, then quickly moved on to JavaScript, spending hours learning foundational concepts through various online resources. After building my first project, a to do list app, I realised I had found a field that truly excites me. From there, I explored different roles and discovered that frontend development and UX/UI design were the perfect fit for my problem solving mindset and love for storytelling through design.
+        I specialise in building responsive, user focused websites that work seamlessly across devices. Whether it is frontend development, UX/UI layout, or creative web design, I am passionate about bringing bold ideas to life.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="iframe-section-title text-2xl font-semibold text-white">Why work with me?</h3>
+        <p class="iframe-text leading-loose mb-6">
+          I bring a unique creative twist to every project. I care deeply about capturing a client's vision and turning it into something visually striking and fully functional. Whether you are looking for a clean website or something immersive and gamified, I will ensure your digital experience is as bold and user friendly as it is effective.
+          I believe no idea is too ambitious. If I can imagine it, I will find a way to build it.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Border Above Back Button -->
+  <div class="iframe-border w-full border-t-4 border-pink-500 mt-12"></div>
+
+  <!-- Back Button and CV Download Button Container -->
+  <div class="back flex flex-col sm:flex-row justify-between items-start sm:items-center pt-4 gap-4 sm:gap-0">
+    <!-- Back Button -->
+    <a id="back" href="menu.html" class="iframe-button backborder border-pink-500 text-white px-4 py-2 rounded text-sm transition-all duration-300 transform hover:scale-105 hover:bg-pink-700 animate-pulse-glow">
+      &larr; Back to Menu
+    </a>
+    
+    <!-- Save Game Button -->
+    <a 
+      href="../../public/cv/RochellesCVTech.pdf" 
+      aria-label="Download CV"
+      download 
+      class="iframe-button btn-accessible gap-2 border border-pink-500 text-white px-5 py-2 rounded text-sm transition-all duration-300 transform hover:scale-105 hover:bg-pink-700 animate-pulse-glow flex items-center focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
+    >
+      💾 Save Game (Download CV)
+    </a>
+  </div>
+
+<div class="custom-cursor" id="customCursor"></div>
+ <script type="module" src="./cursor.js"></script>
+  <script type="module" src="./about.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects</title>
+  <script type="module" src="./projects.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            orbitron: ['Orbitron', 'sans-serif'],
+          },
+          animation: {
+            'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+          },
+          keyframes: {
+            'pulse-glow': {
+              '0%, 100%': {
+                boxShadow: '0 0 0px rgba(236, 72, 153, 0.6), 0 0 10px rgba(236, 72, 153, 0.7), 0 0 20px rgba(236, 72, 153, 0.8)'
+              },
+              '50%': {
+                boxShadow: '0 0 8px rgba(236, 72, 153, 0.8), 0 0 16px rgba(236, 72, 153, 0.9), 0 0 24px rgba(236, 72, 153, 1)'
+              }
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+  body, html {
+    cursor: none; /* Hide default cursor */
+  }
+
+  .custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background-color: rgba(255, 20, 147, 0.7); /* neon pink */
+    border: 2px solid #ec4899; /* Tailwind pink-500 */
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s ease;
+    box-shadow: 0 0 8px #ec4899, 0 0 16px #ec4899;
+  }
+
+  /* Iframe-specific responsive styles */
+  @media (max-width: 640px) {
+    body {
+      font-size: 10px !important;
+      padding: 0.5rem !important;
+      line-height: 1.2 !important;
+    }
+    
+    .w-full.mb-4 {
+      margin-bottom: 0.5rem !important;
+    }
+    
+    .text-lg {
+      font-size: 14px !important;
+    }
+    
+    .text-1xl {
+      font-size: 12px !important;
+    }
+    
+    .text-base {
+      font-size: 10px !important;
+    }
+    
+    .text-xl {
+      font-size: 11px !important;
+    }
+    
+    .leading-loose {
+      line-height: 1.2 !important;
+    }
+    
+    .pt-2 {
+      padding-top: 0.25rem !important;
+    }
+    
+    .mt-6, .mt-8 {
+      margin-top: 1rem !important;
+    }
+    
+    .mb-2 {
+      margin-bottom: 0.25rem !important;
+    }
+    
+    br {
+      display: none;
+    }
+    
+    .px-3, .px-4, .px-5 {
+      padding-left: 0.5rem !important;
+      padding-right: 0.5rem !important;
+    }
+    
+    .py-2 {
+      padding-top: 0.25rem !important;
+      padding-bottom: 0.25rem !important;
+    }
+    
+    .gap-1, .gap-2, .gap-4 {
+      gap: 0.25rem !important;
+    }
+    
+    .border-t-4 {
+      border-top-width: 2px !important;
+    }
+    
+    .mt-8, .mt-12 {
+      margin-top: 0.5rem !important;
+    }
+    
+    .pt-4 {
+      padding-top: 0.25rem !important;
+    }
+  }
+</style>
+</head>
+<body class="bg-[#0a0a0a] text-white font-orbitron px-4 sm:px-6 py-4 min-h-screen">
+  <div class="w-full mb-4 sm:mb-6 flex items-center">
+    <div class="flex-grow h-1 bg-pink-500"></div>
+    <h1 class="text-lg sm:text-2xl lg:text-4xl font-bold mx-2 sm:mx-4 text-pink-500 whitespace-nowrap">SERVICES & CONTACT</h1>
+    <div class="flex-grow h-1 bg-pink-500"></div>
+  </div>
+
+  <div class="w-full max-w-4xl mx-auto text-justify pt-2 sm:pt-[5vh]">
+    <h3 class="text-1xl sm:text-2xl font-semibold text-white">
+      Services
+      </h3>
+      <h2 class="text-base sm:text-xl text-white leading-loose mb-2">
+        
+<br /><br>
+<div data-aos="fade-up">
+<h4 class="text-xl font-bold text-pink-300 font-bold text-base border-b border-pink-500 pb-1 mb-1">Frontend </h4>
+</div>
+I build responsive, accessible, and interactive websites using HTML, CSS, JavaScript, and frameworks like Tailwind CSS. Whether it is a landing page, a multi section site, or a creative concept like my console inspired portfolio, I ensure clean code, intuitive layouts, and seamless performance across all devices.
+<br /><br />
+<div data-aos="fade-up">
+<h4 class="text-xl font-bold text-pink-300 font-bold text-base border-b border-pink-500 pb-1 mb-1">UI/UX Design</h4></div>
+I design thoughtful user interfaces and digital experiences that prioritise both form and function. Using tools like Figma, I map user journeys, create wireframes and prototypes, and ensure every interaction feels purposeful. My designs are guided by empathy, accessibility, and visual storytelling.
+<br /><br />
+<div data-aos="fade-up">
+<h4 class="text-xl font-bold text-pink-300 font-bold text-base border-b border-pink-500 pb-1 mb-1">WordPress sites setup </h4>
+</div>
+For clients who want a custom website without diving into code, I offer WordPress design using Elementor and other page builders. I create professional websites that are easy to update, mobile optimised, and built around your brand's identity — ideal for small businesses and creative entrepreneurs.
+<br /><br />
+
+<div data-aos="fade-up">
+<h4 class="text-xl font-bold text-pink-300 font-bold text-base border-b border-pink-500 pb-1 mb-1">3D Design previews using Blender</h4>
+</div>
+I offer 3D modelling services to enhance your site's visuals, such as product mockups, themed environments, or interactive scenes. These assets are created in Blender and can be integrated into web experiences or used as part of branding and promotional content.
+<br /><br />
+<div data-aos="fade-up">
+<h4 class="text-xl font-bold text-pink-300 font-bold text-base border-b border-pink-500 pb-1 mb-1">Portfolio and personal brand development</h4>
+</div>
+I help individuals and creatives build stand out personal portfolios that go beyond templates. Whether it is designing a custom layout, gamifying the user experience, or structuring project sections to tell your story, I craft portfolios that showcase both your work and personality. Ideal for early career developers, designers, or freelancers who want to make a bold impression.
+<br /><br />
+<h3 class="text-xl sm:text-2xl font-semibold text-white mt-6 sm:mt-8">
+Contact Me
+</h3>
+<h2 class="text-base sm:text-xl text-white">
+<br /><br />
+<p class="font-bold">Got an idea? </p> Let's work together and bring it to life. Whether you need a standout website, a creative user interface, or a fresh perspective, I am ready to build something that feels as good as it looks. Drop me a message and let's make it happen.
+
+<br /><br />
+
+<p><span class="text-pink-500 font-bold">Email:</span>
+  <a href="mailto:rochelleblawson@gmail.com" class="underline hover:text-pink-400 transition">rochelleblawson@gmail.com</a>
+</p>
+
+<p><span class="text-pink-500 font-bold">Phone:</span>
+  <a href="tel:+447561519645" class="underline hover:text-pink-400 transition">07561 519 645</a>
+</p>
+
+<p><span class="text-pink-500 font-bold">LinkedIn:</span>
+  <a href="https://www.linkedin.com/in/rochellelawson" target="_blank" class="underline hover:text-pink-400 transition">
+    linkedin.com/in/rochellelawson
+  </a>
+</p>
+
+
+    </h2>
+
+<br /><br />
+    
+  <!-- Bottom Border Above Back Button -->
+  <div class="w-full border-t-4 border-pink-500 mt-8 sm:mt-12"></div>
+
+  <!-- Back Button and CV Download Button Container -->
+  <div class="back flex flex-col sm:flex-row justify-between items-start sm:items-center pt-4 gap-4 sm:gap-0">
+    <!-- Back Button -->
+    <a id="back" href="menu.html" class="back border border-pink-500 text-white px-3 sm:px-4 py-2 rounded text-xs sm:text-sm transition-all duration-300 transform hover:scale-105 hover:bg-pink-700 animate-pulse-glow">
+      &larr; Back to Menu
+    </a>
+    
+    <!-- Save Game Button -->
+    <a 
+      href="../../public/cv/RochellesCVTech.pdf" 
+      aria-label="Download CV"
+      download 
+      class="btn-accessible gap-1 sm:gap-2 border border-pink-500 text-white px-3 sm:px-5 py-2 rounded text-xs sm:text-sm transition-all duration-300 transform hover:scale-105 hover:bg-pink-700 animate-pulse-glow flex items-center focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
+    >
+      <span class="text-sm">💾</span>
+      <span class="hidden sm:inline">Save Game (Download CV)</span>
+      <span class="sm:hidden">💾 Save Game (Download CV)</span>
+    </a>
+  </div>
+
+
+
+  <div class="custom-cursor" id="customCursor"></div>
+ <script type="module" src="./cursor.js"></script>
+  <script type="module" src="./services.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="/path/to/your-script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Switch Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      color: white;
+    }
+  </style>
+  <style>
+  body, html {
+    cursor: none; /* Hide default cursor */
+  }
+
+  .custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background-color: rgba(255, 20, 147, 0.7); /* neon pink */
+    border: 2px solid #ec4899; /* Tailwind pink-500 */
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s ease;
+    box-shadow: 0 0 8px #ec4899, 0 0 16px #ec4899;
+  }
+</style>
+
+
+</head>
+<body class="flex items-center justify-center h-screen">
+  <h1 class="text-2xl font-bold">Welcome to My Switch Portfolio</h1>
+</body>
+<div class="custom-cursor" id="customCursor"></div>
+ <script type="module" src="./cursor.js"></script>
+</html>
