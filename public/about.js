@@ -1,4 +1,4 @@
-const hoverSound = new Audio('../../public/sounds/click.mp3');
+const hoverSound = new Audio('/sounds/click.mp3');
 hoverSound.volume = 0.6;
 
 // Select all tiles with class 'tile'

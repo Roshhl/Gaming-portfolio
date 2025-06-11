@@ -101,7 +101,7 @@ loader.load('/3dconsole.glb', (gltf) => {
 
   // Try to play sound immediately when console loads - only once
 let soundPlayed = false;
-const startupSound = new Audio('./sounds/consolestartsound.wav');
+const startupSound = new Audio('/consolestartsound.wav');
 startupSound.volume = 0.8;
 startupSound.autoplay = true;
 startupSound.preload = 'auto';
