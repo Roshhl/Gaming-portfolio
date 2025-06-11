@@ -2,85 +2,61 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="dark">
-<title>3D + 2D Portfolio</title>
-
-<!-- Open Graph Meta Tags -->
-<meta property="og:title" content="Player Profile – Rochelle Lawson" />
-<meta property="og:description" content="Explore Rochelle Lawson's frontend developer profile, skills, and interactive design journey." />
-<meta property="og:image" content="../../public/images/metapp.png"/>
-<meta property="og:url" content="https://yourdomain.com/about.html" />
-<meta property="og:type" content="website" />
-<meta name="twitter:card" content="summary_large_image" />
-
-<!-- Orbitron Font -->
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-
-<!-- Tailwind via CDN -->
-<script src="https://cdn.tailwindcss.com"></script>
-<meta name="color-scheme" content="dark">
-<style>
-  body, html {
-    margin: 0;
-    padding: 0;
-    background: #000000 !important; /* Force black background */
-    color: white;
-  }
-
-  canvas {
-    display: block;
-  }
-
-  #iframe {
-    position: absolute;
-    width: 95px;
-    height: 60px;
-    pointer-events: none;
-    border: none;
-    z-index: 999;
-    transform: translate(-50%, -50%) rotate(180) scale(1);
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
-    pointer-events: auto;
-    background: #000000 !important; /* Force black background */
-    border: none;
-    border-radius: 12px;
-  }
-
-  html {
-    background: #000000 !important; /* Force black background */
-    color-scheme: dark;
-  }
-
-  /* Ensure all elements have dark background */
-  * {
-    background-color: transparent !important;
-  }
-  
-  body {
-    background-color: #000000 !important;
-  }
-
-  @media (max-width: 768px) {
-    #iframe {
-      width: 280px !important;
-      height: 180px !important;
-      opacity: 1 !important;
-      transform: translate(-50%, -50%) scale(1) !important; /* Remove rotation on mobile */
-      border: 2px solid #ec4899; /* Add pink border for visibility */
+  <title>3D + 2D Portfolio</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      background: #000000 !important; /* Force black background */
+      color: white;
     }
-  }
 
-  /* Tablet styles */
-  @media (min-width: 769px) and (max-width: 1024px) {
-    #iframe {
-      width: 150px !important;
-      height: 100px !important;
-      opacity: 1 !important;
+    canvas {
+      display: block;
     }
-  }
-</style>
+
+    #iframe {
+      position: absolute;
+      width: 95px;
+      height: 60px;
+      pointer-events: auto;
+      border: none;
+      z-index: 999;
+      transform: translate(-50%, -50%) rotate(180deg) scale(1);
+      opacity: 1;
+      transition: opacity 1s ease-in-out;
+      background: #000000 !important; /* Force black background */
+      border-radius: 12px;
+      top: 50%;
+      left: 50%;
+    }
+
+    html {
+      background: #000000 !important; /* Force black background */
+      color-scheme: dark;
+    }
+
+    /* Ensure all elements have dark background */
+    * {
+      background-color: transparent !important;
+    }
+    
+    body {
+      background-color: #000000 !important;
+    }
+
+    /* Mobile responsive styles */
+    @media (max-width: 768px) {
+      #iframe {
+        position: fixed !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        z-index: 9999 !important;
+      }
+    }
+  </style>
 </head>
 <body style="background: #000000 !important;">
   
