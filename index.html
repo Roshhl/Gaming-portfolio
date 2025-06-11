@@ -20,16 +20,16 @@
       position: absolute;
       width: 95px;
       height: 60px;
-      pointer-events: auto;
+      pointer-events: none;
       border: none;
       z-index: 999;
-      transform: translate(-50%, -50%) rotate(180deg) scale(1);
-      opacity: 1;
+      transform: translate(-50%, -50%) rotate(180) scale(1);
+      opacity: 0;
       transition: opacity 1s ease-in-out;
+      pointer-events: auto;
       background: #000000 !important; /* Force black background */
+      border: none;
       border-radius: 12px;
-      top: 50%;
-      left: 50%;
     }
 
     html {
@@ -44,17 +44,6 @@
     
     body {
       background-color: #000000 !important;
-    }
-
-    /* Mobile responsive styles */
-    @media (max-width: 768px) {
-      #iframe {
-        position: fixed !important;
-        top: 50% !important;
-        left: 50% !important;
-        transform: translate(-50%, -50%) !important;
-        z-index: 9999 !important;
-      }
     }
   </style>
 </head>
