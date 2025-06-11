@@ -81,42 +81,40 @@ function centerIframeOnMobile() {
     // Check if portrait (height > width)
     const isPortrait = window.innerHeight > window.innerWidth;
     
-    // Apply styles with high priority using direct style setting
-    iframe.style.cssText = `
-      position: fixed !important;
-      top: 50vh !important;
-      left: 50vw !important;
-      transform: translate(-50%, -50%) !important;
-      z-index: 9999 !important;
-      border: 2px solid #ec4899 !important;
-      display: block !important;
-      opacity: 1 !important;
-      background: #000000 !important;
-      width: ${isPortrait ? '85vw' : '70vw'} !important;
-      height: ${isPortrait ? '55vh' : '60vh'} !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      box-sizing: border-box !important;
-    `;
-    
-  } else {
-    // Reset for desktop
+    // Clear any existing styles first
     iframe.style.cssText = '';
+    
+    // Apply styles one by one to ensure they stick
+    iframe.style.position = 'fixed';
+    iframe.style.zIndex = '9999';
+    iframe.style.display = 'block';
+    iframe.style.opacity = '1';
+    iframe.style.background = '#000000';
+    iframe.style.border = '2px solid #ec4899';
+    
+    if (isPortrait) {
+      iframe.style.width = '80vw';
+      iframe.style.height = '50vh';
+    } else {
+      iframe.style.width = '70vw';
+      iframe.style.height = '60vh';
+    }
+    
+    // Set positioning last
+    iframe.style.left = '50%';
+    iframe.style.top = '50%';
+    iframe.style.transform = 'translate(-50%, -50%)';
+    
   }
 }
 
-// Multiple event listeners to catch all scenarios
+// Run immediately and on events
+centerIframeOnMobile();
 window.addEventListener('load', centerIframeOnMobile);
-window.addEventListener('DOMContentLoaded', centerIframeOnMobile);
 window.addEventListener('resize', centerIframeOnMobile);
 window.addEventListener('orientationchange', () => {
-  setTimeout(centerIframeOnMobile, 300);
+  setTimeout(centerIframeOnMobile, 200);
 });
-
-// Force it to run multiple times
-setTimeout(centerIframeOnMobile, 100);
-setTimeout(centerIframeOnMobile, 500);
-setTimeout(centerIframeOnMobile, 1000);
 const glow = document.createElement('div');
 glow.id = 'iframe-glow';
 glow.style.position = 'absolute';
