@@ -78,17 +78,14 @@ function centerIframeOnMobile() {
   const isMobile = window.innerWidth <= 768 || window.innerHeight <= 768;
   
   if (isMobile) {
-    // Force remove any existing styles first
-    iframe.removeAttribute('style');
-    
     // Check if portrait (height > width)
     const isPortrait = window.innerHeight > window.innerWidth;
     
     // Apply styles with high priority using direct style setting
     iframe.style.cssText = `
       position: fixed !important;
-      top: 50% !important;
-      left: 50% !important;
+      top: 50vh !important;
+      left: 50vw !important;
       transform: translate(-50%, -50%) !important;
       z-index: 9999 !important;
       border: 2px solid #ec4899 !important;
@@ -99,8 +96,12 @@ function centerIframeOnMobile() {
       height: ${isPortrait ? '55vh' : '60vh'} !important;
       margin: 0 !important;
       padding: 0 !important;
+      box-sizing: border-box !important;
     `;
     
+  } else {
+    // Reset for desktop
+    iframe.style.cssText = '';
   }
 }
 
