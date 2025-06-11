@@ -17,6 +17,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
+
+
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
   <!-- Orbitron Font -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
@@ -55,26 +61,29 @@
     box-shadow: 0 0 8px #ec4899, 0 0 16px #ec4899;
   }
 
-  
+
 </style>
+
 
 
 </head>
 
 <body class="bg-black text-white flex flex-col justify-center items-center min-h-screen relative font-[Orbitron] px-4">
-  <p class="absolute bottom-4 left-4 text-xs">RochelleOS v1.0</p>
-  <p class="absolute top-4 right-4 flex items-center text-xs"></p>
-  <div class="absolute top-4 right-4 flex items-center space-x-2 md:space-x-3 z-50">
-    <img src="../../public/icons/volume.svg" alt="Volume" class="w-6 h-6 md:w-8 md:h-8" />
-  <img src="../../public/icons/battery.svg" alt="Battery" class="w-6 h-6 md:w-8 md:h-8" />
 
-  <span class="text-white text-sm md:text-lg font-medium">21:07</span>
-</div>
 
-  <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-wide animate-pulse text-center">PRESS A TO START</h1>
-  <div class="custom-cursor" id="customCursor"></div>
- <script type="module" src="./cursor.js"></script>
-  <script type="module" src="./start.js"></script>
-  
+    <script>
+  let hasMoved = false;
+
+  function goToStartPage() {
+    if (hasMoved) return;
+    hasMoved = true;
+
+    // Navigate to start.html
+    window.location.href = 'start.html';
+  }
+
+  // Trigger only once on first mouse movement
+  window.addEventListener('mousemove', goToStartPage, { once: true });
+</script>
+
 </body>
-</html>
