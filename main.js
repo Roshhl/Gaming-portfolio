@@ -70,22 +70,7 @@ if (!iframe) {
   }
 
 // Make iframe visible on mobile after page loads
-window.addEventListener('load', function() {
-  if (window.innerWidth <= 768) {
-    const iframe = document.getElementById('iframe');
-    if (iframe) {
-      iframe.style.opacity = '1';
-      iframe.style.position = 'fixed';
-      iframe.style.top = '50%';
-      iframe.style.left = '50%';
-      iframe.style.transform = 'translate(-50%, -50%)';
-      iframe.style.zIndex = '9999';
-      iframe.style.width = '200px';
-      iframe.style.height = '120px';
-      iframe.style.border = '2px solid #ec4899';
-    }
-  }
-});
+
 
 const glow = document.createElement('div');
 glow.id = 'iframe-glow';
