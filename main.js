@@ -70,7 +70,25 @@ if (!iframe) {
   }
 
 // Make iframe visible on mobile after page loads
+function centerIframeOnMobile() {
+  if (window.innerWidth <= 768) {
+    const iframe = document.getElementById('iframe');
+    if (iframe) {
+      iframe.style.position = 'fixed';
+      iframe.style.top = '50%';
+      iframe.style.left = '50%';
+      iframe.style.transform = 'translate(-50%, -50%)';
+      iframe.style.zIndex = '9999';
+      iframe.style.width = '250px';
+      iframe.style.height = '150px';
+      iframe.style.border = '2px solid #ec4899';
+    }
+  }
+}
 
+// Run on load and resize
+window.addEventListener('load', centerIframeOnMobile);
+window.addEventListener('resize', centerIframeOnMobile);
 
 const glow = document.createElement('div');
 glow.id = 'iframe-glow';
