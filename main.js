@@ -70,8 +70,11 @@ if (!iframe) {
   }
 
 // Make iframe visible on mobile after page loads
-function centerIframeOnMobile() {
-  if (window.innerWidth <= 768) {
+ffunction centerIframeOnMobile() {
+  // Check if it's a mobile device (either portrait or landscape)
+  const isMobile = window.innerWidth <= 768 || window.innerHeight <= 768;
+  
+  if (isMobile) {
     const iframe = document.getElementById('iframe');
     if (iframe) {
       iframe.style.position = 'fixed';
@@ -82,9 +85,29 @@ function centerIframeOnMobile() {
       iframe.style.width = '250px';
       iframe.style.height = '150px';
       iframe.style.border = '2px solid #ec4899';
+      iframe.style.display = 'block';
+      iframe.style.opacity = '1';
+    }
+  } else {
+    // Reset styles for desktop
+    const iframe = document.getElementById('iframe');
+    if (iframe) {
+      iframe.style.position = '';
+      iframe.style.top = '';
+      iframe.style.left = '';
+      iframe.style.transform = '';
+      iframe.style.zIndex = '';
+      iframe.style.width = '';
+      iframe.style.height = '';
+      iframe.style.border = '';
     }
   }
 }
+
+// Run on load, resize, and orientation change
+window.addEventListener('load', centerIframeOnMobile);
+window.addEventListener('resize', centerIframeOnMobile);
+window.addEventListener('orientationchange', centerIframeOnMobile);
 
 // Run on load and resize
 window.addEventListener('load', centerIframeOnMobile);
