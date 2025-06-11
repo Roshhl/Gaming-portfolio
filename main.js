@@ -138,7 +138,7 @@ startupSound.addEventListener('canplay', () => {
 
 // Load second model if needed
 const secondLoader = new GLTFLoader();
-secondLoader.load('3d-console.glb', (gltf) => {
+secondLoader.load('3dconsole.glb', (gltf) => {
   const secondModel = gltf.scene;
 
   secondModel.traverse((child) => {
