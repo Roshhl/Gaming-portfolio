@@ -94,7 +94,7 @@ const tempVector = new THREE.Vector3();
 
 // Load GLB model
 const loader = new GLTFLoader();
-loader.load('/3dconsole.glb', (gltf) => {
+loader.load('3dconsole.glb', (gltf) => {
   model = gltf.scene;
   model.rotation.y = Math.PI;
   scene.add(model);
