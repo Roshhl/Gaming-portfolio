@@ -92,13 +92,17 @@ function centerIframeOnMobile() {
     iframe.style.opacity = '1';
     
     if (isPortrait) {
-      // Portrait mode - larger size
-      iframe.style.width = '320px';
-      iframe.style.height = '200px';
+      // Portrait mode - much larger size like desktop
+      iframe.style.width = '90vw';  // 90% of viewport width
+      iframe.style.height = '50vh'; // 50% of viewport height
+      iframe.style.maxWidth = '400px';
+      iframe.style.maxHeight = '300px';
     } else {
-      // Landscape mode - smaller size but properly centered
-      iframe.style.width = '280px';
-      iframe.style.height = '180px';
+      // Landscape mode - smaller but still visible
+      iframe.style.width = '70vw';
+      iframe.style.height = '60vh';
+      iframe.style.maxWidth = '500px';
+      iframe.style.maxHeight = '280px';
     }
   } else {
     // Reset styles for desktop
@@ -110,6 +114,8 @@ function centerIframeOnMobile() {
     iframe.style.width = '';
     iframe.style.height = '';
     iframe.style.border = '';
+    iframe.style.maxWidth = '';
+    iframe.style.maxHeight = '';
   }
 }
 
