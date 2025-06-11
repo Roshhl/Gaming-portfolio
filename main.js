@@ -81,34 +81,25 @@ function centerIframeOnMobile() {
     // Force remove any existing styles first
     iframe.removeAttribute('style');
     
-    // Apply styles with high priority
-    const styles = {
-      position: 'fixed !important',
-      top: '50% !important',
-      left: '50% !important',
-      transform: 'translate(-50%, -50%) !important',
-      zIndex: '9999 !important',
-      border: '2px solid #ec4899 !important',
-      display: 'block !important',
-      opacity: '1 !important',
-      background: '#000000 !important'
-    };
-    
     // Check if portrait (height > width)
-    if (window.innerHeight > window.innerWidth) {
-      // Portrait - make it big
-      styles.width = '85vw !important';
-      styles.height = '55vh !important';
-    } else {
-      // Landscape
-      styles.width = '70vw !important';
-      styles.height = '60vh !important';
-    }
+    const isPortrait = window.innerHeight > window.innerWidth;
     
-    // Apply each style individually
-    Object.keys(styles).forEach(property => {
-      iframe.style.setProperty(property, styles[property].replace(' !important', ''), 'important');
-    });
+    // Apply styles with high priority using direct style setting
+    iframe.style.cssText = `
+      position: fixed !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) !important;
+      z-index: 9999 !important;
+      border: 2px solid #ec4899 !important;
+      display: block !important;
+      opacity: 1 !important;
+      background: #000000 !important;
+      width: ${isPortrait ? '85vw' : '70vw'} !important;
+      height: ${isPortrait ? '55vh' : '60vh'} !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    `;
     
   }
 }
