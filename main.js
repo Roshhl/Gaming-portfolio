@@ -69,6 +69,19 @@ if (!iframe) {
  iframeWrapper.appendChild(iframe);
   }
 
+  // Make iframe visible on mobile
+if (window.innerWidth <= 768) {
+  const iframe = document.getElementById('iframe');
+  if (iframe) {
+    iframe.style.opacity = '1';
+    iframe.style.position = 'fixed';
+    iframe.style.top = '50%';
+    iframe.style.left = '50%';
+    iframe.style.transform = 'translate(-50%, -50%)';
+    iframe.style.zIndex = '9999';
+  }
+}
+
 const glow = document.createElement('div');
 glow.id = 'iframe-glow';
 glow.style.position = 'absolute';
