@@ -74,72 +74,57 @@ function centerIframeOnMobile() {
   const iframe = document.getElementById('iframe');
   if (!iframe) return;
   
-  // Check if it's a mobile device
+  // Simple mobile detection
   const isMobile = window.innerWidth <= 768 || window.innerHeight <= 768;
   
   if (isMobile) {
-    // More reliable portrait detection
-    const isPortrait = window.innerHeight > window.innerWidth;
+    // Force remove any existing styles first
+    iframe.removeAttribute('style');
     
-    // Base styles for mobile
-    iframe.style.position = 'fixed';
-    iframe.style.top = '50%';
-    iframe.style.left = '50%';
-    iframe.style.transform = 'translate(-50%, -50%)';
-    iframe.style.zIndex = '9999';
-    iframe.style.border = '2px solid #ec4899';
-    iframe.style.display = 'block';
-    iframe.style.opacity = '1';
+    // Apply styles with high priority
+    const styles = {
+      position: 'fixed !important',
+      top: '50% !important',
+      left: '50% !important',
+      transform: 'translate(-50%, -50%) !important',
+      zIndex: '9999 !important',
+      border: '2px solid #ec4899 !important',
+      display: 'block !important',
+      opacity: '1 !important',
+      background: '#000000 !important'
+    };
     
-    // Debug log to see what's happening
-    console.log('Mobile detected. Portrait:', isPortrait, 'Width:', window.innerWidth, 'Height:', window.innerHeight);
-    
-    if (isPortrait) {
-      // Portrait mode - force large size
-      iframe.style.width = '90vw';
-      iframe.style.height = '60vh';
-      iframe.style.minWidth = '300px';
-      iframe.style.minHeight = '200px';
-      console.log('Applied portrait styles');
+    // Check if portrait (height > width)
+    if (window.innerHeight > window.innerWidth) {
+      // Portrait - make it big
+      styles.width = '85vw !important';
+      styles.height = '55vh !important';
     } else {
-      // Landscape mode
-      iframe.style.width = '70vw';
-      iframe.style.height = '50vh';
-      iframe.style.minWidth = '400px';
-      iframe.style.minHeight = '250px';
-      console.log('Applied landscape styles');
+      // Landscape
+      styles.width = '70vw !important';
+      styles.height = '60vh !important';
     }
     
-    // Remove any conflicting max constraints
-    iframe.style.maxWidth = 'none';
-    iframe.style.maxHeight = 'none';
+    // Apply each style individually
+    Object.keys(styles).forEach(property => {
+      iframe.style.setProperty(property, styles[property].replace(' !important', ''), 'important');
+    });
     
-  } else {
-    // Reset styles for desktop
-    iframe.style.position = '';
-    iframe.style.top = '';
-    iframe.style.left = '';
-    iframe.style.transform = '';
-    iframe.style.zIndex = '';
-    iframe.style.width = '';
-    iframe.style.height = '';
-    iframe.style.border = '';
-    iframe.style.minWidth = '';
-    iframe.style.minHeight = '';
-    iframe.style.maxWidth = '';
-    iframe.style.maxHeight = '';
   }
 }
 
-// Run on load, resize, and orientation change
+// Multiple event listeners to catch all scenarios
 window.addEventListener('load', centerIframeOnMobile);
+window.addEventListener('DOMContentLoaded', centerIframeOnMobile);
 window.addEventListener('resize', centerIframeOnMobile);
 window.addEventListener('orientationchange', () => {
-  setTimeout(centerIframeOnMobile, 200);
+  setTimeout(centerIframeOnMobile, 300);
 });
 
-// Force run after a short delay to ensure it works
+// Force it to run multiple times
+setTimeout(centerIframeOnMobile, 100);
 setTimeout(centerIframeOnMobile, 500);
+setTimeout(centerIframeOnMobile, 1000);
 const glow = document.createElement('div');
 glow.id = 'iframe-glow';
 glow.style.position = 'absolute';
