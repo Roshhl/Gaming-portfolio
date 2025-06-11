@@ -70,7 +70,7 @@ if (!iframe) {
   }
 
 // Make iframe visible on mobile after page loads
-ffunction centerIframeOnMobile() {
+function centerIframeOnMobile() {
   // Check if it's a mobile device (either portrait or landscape)
   const isMobile = window.innerWidth <= 768 || window.innerHeight <= 768;
   
