@@ -70,71 +70,7 @@ if (!iframe) {
   }
 
 // Make iframe visible on mobile after page loads
-function fixIframe() {
-  const iframe = document.getElementById('iframe');
-  if (!iframe) return;
-  
-  // Check if we're on a small screen
-  const screenWidth = window.innerWidth;
-  const screenHeight = window.innerHeight;
-  const isMobile = screenWidth <= 768 || screenHeight <= 768 || screenWidth <= 1024;
-  
-  if (isMobile) {
-    // Hide iframe initially on mobile
-    iframe.style.display = 'none';
-    iframe.style.opacity = '0';
-    
-    // Wait for the 3D scene to load before showing iframe
-    setTimeout(() => {
-      // Apply mobile styles after delay
-      iframe.style.position = 'fixed';
-      iframe.style.zIndex = '9999';
-      iframe.style.display = 'block';
-      iframe.style.opacity = '1';
-      iframe.style.background = '#000000';
-      iframe.style.border = '2px solid #ec4899';
-      iframe.style.transform = 'none';
-      
-      // Check orientation and apply positioning
-      if (screenHeight > screenWidth) {
-        // Portrait - center in middle of screen
-        iframe.style.width = '90vw';
-        iframe.style.height = '50vh';
-        iframe.style.left = '5vw';       // (100vw - 90vw) / 2 = 5vw
-        iframe.style.top = '25vh';       // (100vh - 50vh) / 2 = 25vh
-      } else {
-        // Landscape - center in middle of screen
-        iframe.style.width = '80vw';
-        iframe.style.height = '60vh';
-        iframe.style.left = '10vw';      // (100vw - 80vw) / 2 = 10vw
-        iframe.style.top = '20vh';       // (100vh - 60vh) / 2 = 20vh
-      }
-    }, 3000); // Wait 3 seconds for 3D scene to load
-    
-  } else {
-    // Reset styles for desktop
-    iframe.style.position = '';
-    iframe.style.zIndex = '';
-    iframe.style.display = '';
-    iframe.style.opacity = '';
-    iframe.style.background = '';
-    iframe.style.border = '';
-    iframe.style.transform = '';
-    iframe.style.width = '';
-    iframe.style.height = '';
-    iframe.style.left = '';
-    iframe.style.top = '';
-  }
-}
 
-// Run the function
-fixIframe();
-
-// Also run on orientation change
-window.addEventListener('orientationchange', () => {
-  setTimeout(fixIframe, 300);
-});
-window.addEventListener('resize', fixIframe);
 const glow = document.createElement('div');
 glow.id = 'iframe-glow';
 glow.style.position = 'absolute';
@@ -654,3 +590,49 @@ function moveCameraBack() {
     }
   });
 }
+
+// Mobile responsive code
+function fixIframeForMobile() {
+  const iframe = document.getElementById('iframe');
+  if (!iframe) return;
+  
+  const screenWidth = window.innerWidth;
+  const screenHeight = window.innerHeight;
+  const isMobile = screenWidth <= 768 || screenHeight <= 768 || screenWidth <= 1024;
+  
+  if (isMobile) {
+    iframe.style.display = 'none';
+    iframe.style.opacity = '0';
+    
+    setTimeout(function() {
+      iframe.style.position = 'fixed';
+      iframe.style.zIndex = '9999';
+      iframe.style.display = 'block';
+      iframe.style.opacity = '1';
+      iframe.style.background = '#000000';
+      iframe.style.border = '2px solid #ec4899';
+      iframe.style.transform = 'none';
+      
+      if (screenHeight > screenWidth) {
+        // Portrait - moved more left and higher up
+        iframe.style.width = '90vw';
+        iframe.style.height = '50vh';
+        iframe.style.left = '0vw';   // More left (was 2vw, now 0vw)
+        iframe.style.top = '7vh';    // Higher up (was 10vh, now 7vh)
+      } else {
+        // Landscape - moved more left
+        iframe.style.width = '80vw';
+        iframe.style.height = '60vh';
+        iframe.style.left = '5vw';   // More left (was 7vw, now 5vw)
+        iframe.style.top = '5vh';    // Keep same height
+      }
+    }, 3000);
+  }
+}
+
+fixIframeForMobile();
+
+window.addEventListener('orientationchange', function() {
+  setTimeout(fixIframeForMobile, 300);
+});
+window.addEventListener('resize', fixIframeForMobile);
