@@ -74,28 +74,46 @@ function fixIframe() {
   const iframe = document.getElementById('iframe');
   if (!iframe) return;
   
-  // Always apply mobile styles - no detection needed
-  iframe.style.position = 'absolute';
-  iframe.style.zIndex = '9999';
-  iframe.style.display = 'block';
-  iframe.style.opacity = '1';
-  iframe.style.background = '#000000';
-  iframe.style.border = '2px solid #ec4899';
-  iframe.style.transform = 'none';
+  // Only apply to mobile devices - check if screen is small
+  const isMobile = window.innerWidth <= 768 || window.innerHeight <= 768;
   
-  // Check orientation and apply positioning
-  if (window.innerHeight > window.innerWidth) {
-    // Portrait
-    iframe.style.width = '94vw';
-    iframe.style.height = '60vh';
-    iframe.style.left = '3vw';
-    iframe.style.top = '6vh';
+  if (isMobile) {
+    // Apply mobile styles
+    iframe.style.position = 'absolute';
+    iframe.style.zIndex = '9999';
+    iframe.style.display = 'block';
+    iframe.style.opacity = '1';
+    iframe.style.background = '#000000';
+    iframe.style.border = '2px solid #ec4899';
+    iframe.style.transform = 'none';
+    
+    // Check orientation and apply positioning
+    if (window.innerHeight > window.innerWidth) {
+      // Portrait - force it to show
+      iframe.style.width = '90vw';
+      iframe.style.height = '50vh';
+      iframe.style.left = '5vw';
+      iframe.style.top = '10vh';
+    } else {
+      // Landscape - make it smaller
+      iframe.style.width = '80vw';   // Reduced from 95vw to 80vw
+      iframe.style.height = '60vh';  // Reduced from 70vh to 60vh
+      iframe.style.left = '10vw';    // Centered: (100vw - 80vw) / 2 = 10vw
+      iframe.style.top = '10vh';     // Higher up
+    }
   } else {
-    // Landscape  
-    iframe.style.width = '95vw';
-    iframe.style.height = '70vh';
-    iframe.style.left = '2.5vw';
-    iframe.style.top = '5vh';
+    // Reset styles for desktop
+    iframe.style.position = '';
+    iframe.style.zIndex = '';
+    iframe.style.display = '';
+    iframe.style.opacity = '';
+    iframe.style.background = '';
+    iframe.style.border = '';
+    iframe.style.transform = '';
+    iframe.style.width = '';
+    iframe.style.height = '';
+    iframe.style.left = '';
+    iframe.style.top = '';
   }
 }
 
@@ -105,7 +123,7 @@ setTimeout(fixIframe, 100);
 setTimeout(fixIframe, 500);
 setTimeout(fixIframe, 1000);
 
-// Also run on orientation change
+// Also run on orientation change and resize
 window.addEventListener('orientationchange', () => {
   setTimeout(fixIframe, 300);
 });
