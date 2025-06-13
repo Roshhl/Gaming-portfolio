@@ -38,7 +38,6 @@ iframeWrapper.style.pointerEvents = 'none';
 iframeWrapper.style.transformOrigin = '50% 50%';
 document.body.appendChild(iframeWrapper);
 
-
 // Get existing iframe or create if it doesn't exist
 let iframe = document.getElementById('iframe');
 if (!iframe) {
@@ -50,27 +49,25 @@ if (!iframe) {
   iframe.style.perspective = '800px'; 
   iframe.style.width = '95px';
   iframe.style.height = '90px';
-  iframe.style.border = 'none';                // Remove border for clean look
-  iframe.style.margin = '0';                   // ✅ No margin
-  iframe.style.padding = '0';                  // ✅ No padding
-  iframe.style.backgroundColor = '#000000';    // Black background to match the scene
-  iframe.style.display = 'block';              // ✅ Avoid inline gaps
-  iframe.style.overflow = 'hidden';            // ✅ Hide overflow edge
+  iframe.style.border = 'none';
+  iframe.style.margin = '0';
+  iframe.style.padding = '0';
+  iframe.style.backgroundColor = '#000000';
+  iframe.style.display = 'block';
+  iframe.style.overflow = 'hidden';
   iframe.style.zIndex = '999';
   iframe.style.pointerEvents = 'none';
-  iframe.style.transform = 'translate(-50%, -50%)'; // Remove the 180deg rotations
+  iframe.style.transform = 'translate(-50%, -50%)';
   iframe.style.willChange = 'transform';
   iframe.style.colorScheme = 'normal';  
-  iframe.style.aspectRatio = '16 / 10'; // optional for auto height
-  iframe.style.opacity = '0'; // Start completely hidden
-  iframe.style.display = 'none'; // Also hide from display
+  iframe.style.aspectRatio = '16 / 10';
+  iframe.style.opacity = '0';
+  iframe.style.display = 'none';
 
-
- iframeWrapper.appendChild(iframe);
-  }
+  iframeWrapper.appendChild(iframe);
+}
 
 // Make iframe visible on mobile after page loads
-
 const glow = document.createElement('div');
 glow.id = 'iframe-glow';
 glow.style.position = 'absolute';
@@ -78,7 +75,7 @@ glow.style.width = '240px';
 glow.style.height = '160px';
 glow.style.background = 'radial-gradient(circle, #ff00ff55 10%, transparent 70%)';
 glow.style.borderRadius = '12px';
-glow.style.zIndex = '998'; // behind iframe
+glow.style.zIndex = '998';
 glow.style.pointerEvents = 'none';
 glow.style.filter = 'blur(30px)';
 glow.style.transformOrigin = '50% 50%';
@@ -86,13 +83,14 @@ glow.style.willChange = 'transform';
 iframeWrapper.appendChild(glow);
 console.log('Glow created:', glow);
 
-
-
 // Variables to store references
 let screenMesh = null;
 let model = null;
 let screenObject3D = null;
 const tempVector = new THREE.Vector3();
+
+// Mobile detection
+const isMobile = window.innerWidth <= 768 || window.innerHeight <= 768 || window.innerWidth <= 1024;
 
 // Load GLB model
 const loader = new GLTFLoader();
@@ -101,62 +99,66 @@ loader.load('/3dconsole.glb', (gltf) => {
   model.rotation.y = Math.PI;
   scene.add(model);
 
-  // Try to play sound immediately when console loads - only once
-let soundPlayed = false;
-const startupSound = new Audio('sounds/consolestartsound.wav');
-startupSound.volume = 0.8;
-startupSound.autoplay = true;
-startupSound.preload = 'auto';
+  // Sound handling with user interaction requirement
+  let soundPlayed = false;
+  const startupSound = new Audio('sounds/consolestartsound.wav');
+  startupSound.volume = 0.8;
+  startupSound.preload = 'auto';
 
-console.log("🔊 Attempting to play startup sound immediately...");
+  console.log("🔊 Sound loaded, waiting for user interaction...");
 
-// Try to play sound only once
-const forcePlayAudio = () => {
-  if (soundPlayed) return; // Prevent multiple plays
-  
-  startupSound.currentTime = 0;
-  
-  const playPromise = startupSound.play();
-  if (playPromise !== undefined) {
-    playPromise.then(() => {
-      console.log("✅ Startup sound playing successfully!");
-      soundPlayed = true; // Mark as played
-    }).catch((error) => {
-      console.warn("❌ Autoplay blocked:", error);
-    });
-  }
-};
-
-// Try to play immediately
-forcePlayAudio();
-
-// Also try when audio is loaded (but only if not played yet)
-startupSound.addEventListener('canplay', () => {
-  if (!soundPlayed) {
-    console.log("🔊 Audio can play - attempting playback...");
-    forcePlayAudio();
-  }
-}, { once: true });
-
-// Load second model if needed
-const secondLoader = new GLTFLoader();
-secondLoader.load('/3d-console.glb', (gltf) => {
-  const secondModel = gltf.scene;
-
-  secondModel.traverse((child) => {
-    if (child.isMesh && child.name === 'screenplane') {
-      child.material = new THREE.MeshStandardMaterial({
-        transparent: true,
-        opacity: 0,
-        depthWrite: false
+  // Function to play sound after user interaction
+  const playStartupSound = () => {
+    if (soundPlayed) return;
+    
+    startupSound.currentTime = 0;
+    
+    const playPromise = startupSound.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        console.log("✅ Startup sound playing successfully!");
+        soundPlayed = true;
+        
+        // Remove the event listeners once sound is played
+        document.removeEventListener('click', playStartupSound);
+        document.removeEventListener('touchend', playStartupSound);
+        document.removeEventListener('keydown', playStartupSound);
+      }).catch((error) => {
+        console.warn("❌ Sound play failed:", error);
       });
     }
+  };
+
+  // Add event listeners for user interaction to trigger sound
+  document.addEventListener('click', playStartupSound, { once: true });
+  document.addEventListener('touchend', playStartupSound, { once: true });
+  document.addEventListener('keydown', playStartupSound, { once: true });
+
+  // Try immediate play (will likely fail but worth trying)
+  setTimeout(() => {
+    if (!soundPlayed) {
+      console.log("🔊 Attempting immediate sound play...");
+      playStartupSound();
+    }
+  }, 1000);
+
+  // Load second model if needed
+  const secondLoader = new GLTFLoader();
+  secondLoader.load('/3d-console.glb', (gltf) => {
+    const secondModel = gltf.scene;
+
+    secondModel.traverse((child) => {
+      if (child.isMesh && child.name === 'screenplane') {
+        child.material = new THREE.MeshStandardMaterial({
+          transparent: true,
+          opacity: 0,
+          depthWrite: false
+        });
+      }
+    });
+
+    scene.add(secondModel);
   });
-
-  scene.add(secondModel);
-});
-
-
 
   // Set camera position after model loads
   setTimeout(() => {
@@ -215,14 +217,13 @@ function findScreenMesh() {
     }
   });
 
-// Create an anchor that follows the screen
-if (screenMesh) {
-  const iframeAnchor = new THREE.Object3D();
-  iframeAnchor.position.set(0, 0, 0.01); // slightly in front of the screen surface
-  screenMesh.add(iframeAnchor);
-  screenObject3D = iframeAnchor; // this replaces your old screenObject3D
-}
-
+  // Create an anchor that follows the screen
+  if (screenMesh) {
+    const iframeAnchor = new THREE.Object3D();
+    iframeAnchor.position.set(0, 0, 0.01);
+    screenMesh.add(iframeAnchor);
+    screenObject3D = iframeAnchor;
+  }
 
   // Strategy 3: Find by geometry (look for flat planes)
   if (!screenMesh) {
@@ -297,7 +298,6 @@ function logScreenInfo() {
   }
 }
 
-
 function attachIframeToScreen() {
   // Create an Object3D that will be positioned exactly at the screen surface
   screenObject3D = new THREE.Object3D();
@@ -309,7 +309,7 @@ function attachIframeToScreen() {
   
   // CRITICAL: Offset the tracking object to sit ON TOP of the screen surface
   // This moves it slightly forward (positive Z) to make it appear flat on the screen
-  const surfaceOffset = 0.01; // Small offset to place iframe on screen surface
+  const surfaceOffset = 0.01;
   
   // Apply offset in the screen's local coordinate system
   const offsetVector = new THREE.Vector3(0, 0, surfaceOffset);
@@ -369,51 +369,45 @@ function updateIframePosition() {
     rotateY(${0}deg)
     rotateZ(${-rotZ + 180}deg)
   `;
+  
   // Step 1: Measure distance between camera and iframeAnchor
-const distance = camera.position.distanceTo(screenObject3D.getWorldPosition(new THREE.Vector3()));
+  const distance = camera.position.distanceTo(screenObject3D.getWorldPosition(new THREE.Vector3()));
 
-// Step 2: Choose a base scale (tweak to taste)
-const baseScale = 2.4;           // Bigger default size
-const referenceDistance = 4;     // Distance at which it looks "correct"
+  // Step 2: Choose a base scale (tweak to taste)
+  const baseScale = 2.4;
+  const referenceDistance = 4;
 
+  // Step 3: Calculate new scale
+  const scaleFactor = baseScale * (referenceDistance / distance);
 
-// Step 3: Calculate new scale
-const scaleFactor = baseScale * (referenceDistance / distance);
+  // Step 4: Apply scale to iframe
+  iframe.style.transform += ` scale(${scaleFactor})`;
+  
+  glow.style.transform = iframe.style.transform;
+  glow.style.display = iframe.style.display;
 
-// Step 4: Apply scale to iframe
-iframe.style.transform += ` scale(${scaleFactor})`
-;
-glow.style.transform = iframe.style.transform;
-glow.style.display = iframe.style.display;
-
-glow.style.display = 'block';
-glow.style.display = iframe.style.display;
+  glow.style.display = 'block';
+  glow.style.display = iframe.style.display;
 
   // Update iframeWrapper (this moves both iframe and glow)
-iframeWrapper.style.left = `${x}px`;
-iframeWrapper.style.top = `${y}px`;
-iframeWrapper.style.transform = `
-  translate(-50%, -50%)
-  rotateX(${rotX}deg)
-  rotateY(${rotY}deg)
-  rotateZ(${rotZ}deg)
-  scale(${scaleFactor})
-`;
-// Let glow follow the iframe (via wrapper)
-glow.style.transform = 'translate(-50%, -50%)';
-glow.style.left = '50%';
-glow.style.top = '50%';
-glow.style.display = iframe.style.display;
+  iframeWrapper.style.left = `${x}px`;
+  iframeWrapper.style.top = `${y}px`;
+  iframeWrapper.style.transform = `
+    translate(-50%, -50%)
+    rotateX(${rotX}deg)
+    rotateY(${rotY}deg)
+    rotateZ(${rotZ}deg)
+    scale(${scaleFactor})
+  `;
+  
+  // Let glow follow the iframe (via wrapper)
+  glow.style.transform = 'translate(-50%, -50%)';
+  glow.style.left = '50%';
+  glow.style.top = '50%';
+  glow.style.display = iframe.style.display;
 
-
-iframeWrapper.style.display = 'block';
-
-
+  iframeWrapper.style.display = 'block';
 }
-
-
-
-
 
 // Animation loop
 function animate() {
@@ -421,11 +415,10 @@ function animate() {
   
   updateIframePosition();
   const isVisible = tempVector.z < 1 && tempVector.z > -1;
-if (!isVisible) {
-  iframe.style.display = 'none';
-  return;
-}
-
+  if (!isVisible) {
+    iframe.style.display = 'none';
+    return;
+  }
 
   controls.update();
   renderer.render(scene, camera);
@@ -506,10 +499,99 @@ window.addEventListener('click', (event) => {
   }
 });
 
+// Add touch support for mobile devices
+window.addEventListener('touchend', (event) => {
+  // Only handle single touches to avoid conflicts
+  if (event.changedTouches && event.changedTouches.length === 1) {
+    const touch = event.changedTouches[0];
+    const touchX = touch.clientX;
+    const touchY = touch.clientY;
+    
+    // Check if mobile device
+    const isMobileDevice = window.innerWidth <= 768 || window.innerHeight <= 768 || window.innerWidth <= 1024;
+    
+    if (isMobileDevice) {
+      // Mobile behavior: allow hiding and showing iframe, but no camera zoom
+      if (iframe.style.display !== 'none' && iframe.style.opacity === '1') {
+        // Check if touch is outside the iframe area when iframe is visible
+        const iframeRect = iframe.getBoundingClientRect();
+        
+        const isOutsideIframe = touchX < iframeRect.left || 
+                               touchX > iframeRect.right || 
+                               touchY < iframeRect.top || 
+                               touchY > iframeRect.bottom;
+        
+        if (isOutsideIframe) {
+          console.log("🔙 Touching away on mobile - hiding iframe");
+          
+          // Hide iframe immediately (no camera movement on mobile)
+          iframe.style.display = 'none';
+        }
+      } else if (iframe.style.display === 'none') {
+        // If iframe is hidden, check if touching on console to bring it back
+        const mouse = new THREE.Vector2();
+        mouse.x = (touchX / window.innerWidth) * 2 - 1;
+        mouse.y = -(touchY / window.innerHeight) * 2 + 1;
+        
+        const raycaster = new THREE.Raycaster();
+        raycaster.setFromCamera(mouse, camera);
+        
+        const intersects = raycaster.intersectObjects(scene.children, true);
+        
+        // If we touched something in the scene (console area), bring back the iframe
+        if (intersects.length > 0) {
+          console.log("📱 Touching console on mobile - showing iframe");
+          
+          // Show iframe using mobile styling (no camera movement)
+          iframe.style.display = 'block';
+          iframe.style.opacity = '1';
+        }
+      }
+    } else {
+      // Desktop touch behavior - full functionality with camera movement
+      if (iframe.style.display !== 'none' && iframe.style.opacity === '1') {
+        // Check if touch is outside the iframe area when iframe is visible
+        const iframeRect = iframe.getBoundingClientRect();
+        
+        const isOutsideIframe = touchX < iframeRect.left || 
+                               touchX > iframeRect.right || 
+                               touchY < iframeRect.top || 
+                               touchY > iframeRect.bottom;
+        
+        if (isOutsideIframe) {
+          console.log("🔙 Touching away - hiding iframe and zooming out");
+          
+          // Hide iframe immediately
+          iframe.style.display = 'none';
+          
+          // Zoom camera back out
+          moveCameraBack();
+        }
+      } else if (iframe.style.display === 'none') {
+        // If iframe is hidden, check if touching on console to bring it back
+        const mouse = new THREE.Vector2();
+        mouse.x = (touchX / window.innerWidth) * 2 - 1;
+        mouse.y = -(touchY / window.innerHeight) * 2 + 1;
+        
+        const raycaster = new THREE.Raycaster();
+        raycaster.setFromCamera(mouse, camera);
+        
+        const intersects = raycaster.intersectObjects(scene.children, true);
+        
+        // If we touched something in the scene (console area), bring back the iframe
+        if (intersects.length > 0) {
+          console.log("📱 Touching console - bringing back iframe");
+          moveCameraToScreen();
+        }
+      }
+    }
+  }
+});
+
 // Additional debug controls
 document.addEventListener('keydown', (event) => {
   if (event.key === 'r' && screenObject3D) {
-    screenObject3D.rotation.z += Math.PI / 6; // Rotate 30 degrees
+    screenObject3D.rotation.z += Math.PI / 6;
     console.log(`Screen rotated: ${screenObject3D.rotation.z * (180/Math.PI)}°`);
   }
   
@@ -525,15 +607,13 @@ document.addEventListener('keydown', (event) => {
   }
 });
 
-// Remove the duplicate gsap import at the bottom
-camera.position.set(-2, 2.5, 4); // left of screen
+camera.position.set(-2, 2.5, 4);
 
 function moveCameraToScreen() {
   const screenPosition = new THREE.Vector3();
   screenObject3D.getWorldPosition(screenPosition);
 
-  const targetCamPos = screenPosition.clone().add(new THREE.Vector3(0, 0, 3)); // further back, more centered
-
+  const targetCamPos = screenPosition.clone().add(new THREE.Vector3(0, 0, 3));
   const targetLookAt = screenPosition.clone();
 
   gsap.to(camera.position, {
@@ -573,11 +653,6 @@ function moveCameraToScreen() {
   });
 }
 
-setTimeout(() => {
-  moveCameraToScreen();
-}, 500);
-
-
 function moveCameraBack() {
   gsap.to(camera.position, {
     duration: 2,
@@ -590,6 +665,11 @@ function moveCameraBack() {
     }
   });
 }
+
+// Start the experience automatically after a short delay
+setTimeout(() => {
+  moveCameraToScreen();
+}, 500);
 
 // Mobile responsive code
 function fixIframeForMobile() {
@@ -620,11 +700,11 @@ function fixIframeForMobile() {
         iframe.style.left = '0vw';
         iframe.style.top = '7vh';
       } else {
-        // Landscape - fit within the actual 3D scene boundaries
-        iframe.style.width = '50vw';   // Much smaller to fit within scene
-        iframe.style.height = '45vh';  // Proportional height
-        iframe.style.left = '25vw';    // Centered within the visible scene area
-        iframe.style.top = '10vh';     // Positioned within scene
+        // Landscape - just slightly smaller width to be contained
+        iframe.style.width = '70vw';   // Reduced from 80vw to 70vw
+        iframe.style.height = '60vh';
+        iframe.style.left = '5vw';     // Adjusted left to center it
+        iframe.style.top = '5vh';
       }
     }, 3000);
   }
