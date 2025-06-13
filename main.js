@@ -74,15 +74,15 @@ function centerIframeOnMobile() {
   const iframe = document.getElementById('iframe');
   if (!iframe) return;
   
-  // Simple mobile detection
-  const isMobile = window.innerWidth <= 768 || window.innerHeight <= 768;
+  // Better mobile detection - check if either dimension is small OR if it's a touch device
+  const isMobile = window.innerWidth <= 768 || (window.innerWidth <= 1024 && window.innerHeight <= 1366);
   
   if (isMobile) {
     // Check if portrait (height > width)
     const isPortrait = window.innerHeight > window.innerWidth;
     
     // Apply styles one by one to ensure they stick
-    iframe.style.position = 'absolute';  // Changed from 'fixed' to 'absolute'
+    iframe.style.position = 'absolute';
     iframe.style.zIndex = '9999';
     iframe.style.display = 'block';
     iframe.style.opacity = '1';
