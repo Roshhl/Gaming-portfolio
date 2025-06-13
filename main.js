@@ -70,23 +70,56 @@ if (!iframe) {
   }
 
 // Make iframe visible on mobile after page loads
-function showIframe() {
+function centerIframeOnMobile() {
   const iframe = document.getElementById('iframe');
-  if (iframe && window.innerWidth <= 768) {
+  if (!iframe) return;
+  
+  // Check if it's a mobile device
+  const isMobile = window.innerWidth <= 768 || window.innerHeight <= 768;
+  
+  if (isMobile) {
+    // Determine if we're in portrait or landscape
+    const isPortrait = window.innerHeight > window.innerWidth;
+    
+    // Base styles for mobile
     iframe.style.position = 'fixed';
+    iframe.style.top = '50%';
+    iframe.style.left = '50%';
+    iframe.style.transform = 'translate(-50%, -50%)';
+    iframe.style.zIndex = '9999';
+    iframe.style.border = '2px solid #ec4899';
     iframe.style.display = 'block';
     iframe.style.opacity = '1';
-    iframe.style.zIndex = '9999';
-    iframe.style.top = '8vh';
-    iframe.style.left = '3vw';
-    iframe.style.width = '94vw';
-    iframe.style.height = '60vh';
-    iframe.style.border = '2px solid #ec4899';
+    
+    if (isPortrait) {
+      // Portrait mode - larger size
+      iframe.style.width = '320px';
+      iframe.style.height = '200px';
+    } else {
+      // Landscape mode - smaller size but properly centered
+      iframe.style.width = '280px';
+      iframe.style.height = '180px';
+    }
+  } else {
+    // Reset styles for desktop
+    iframe.style.position = '';
+    iframe.style.top = '';
+    iframe.style.left = '';
+    iframe.style.transform = '';
+    iframe.style.zIndex = '';
+    iframe.style.width = '';
+    iframe.style.height = '';
+    iframe.style.border = '';
   }
 }
 
-showIframe();
-
+// Run on load, resize, and orientation change
+window.addEventListener('load', centerIframeOnMobile);
+window.addEventListener('resize', centerIframeOnMobile);
+window.addEventListener('orientationchange', () => {
+  // Small delay to ensure orientation change is complete
+  setTimeout(centerIframeOnMobile, 100);
+});
 const glow = document.createElement('div');
 glow.id = 'iframe-glow';
 glow.style.position = 'absolute';
