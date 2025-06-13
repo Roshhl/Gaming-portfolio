@@ -99,16 +99,17 @@ loader.load('/3dconsole.glb', (gltf) => {
   model.rotation.y = Math.PI;
   scene.add(model);
 
-  // Sound handling with user interaction requirement
+  // Try to play sound immediately when console loads - only once
   let soundPlayed = false;
   const startupSound = new Audio('sounds/consolestartsound.wav');
   startupSound.volume = 0.8;
+  startupSound.autoplay = true;
   startupSound.preload = 'auto';
 
-  console.log("🔊 Sound loaded, waiting for user interaction...");
+  console.log("🔊 Attempting to play startup sound immediately...");
 
-  // Function to play sound after user interaction
-  const playStartupSound = () => {
+  // Try to play sound only once
+  const forcePlayAudio = () => {
     if (soundPlayed) return;
     
     startupSound.currentTime = 0;
@@ -118,29 +119,22 @@ loader.load('/3dconsole.glb', (gltf) => {
       playPromise.then(() => {
         console.log("✅ Startup sound playing successfully!");
         soundPlayed = true;
-        
-        // Remove the event listeners once sound is played
-        document.removeEventListener('click', playStartupSound);
-        document.removeEventListener('touchend', playStartupSound);
-        document.removeEventListener('keydown', playStartupSound);
       }).catch((error) => {
-        console.warn("❌ Sound play failed:", error);
+        console.warn("❌ Autoplay blocked:", error);
       });
     }
   };
 
-  // Add event listeners for user interaction to trigger sound
-  document.addEventListener('click', playStartupSound, { once: true });
-  document.addEventListener('touchend', playStartupSound, { once: true });
-  document.addEventListener('keydown', playStartupSound, { once: true });
+  // Try to play immediately
+  forcePlayAudio();
 
-  // Try immediate play (will likely fail but worth trying)
-  setTimeout(() => {
+  // Also try when audio is loaded (but only if not played yet)
+  startupSound.addEventListener('canplay', () => {
     if (!soundPlayed) {
-      console.log("🔊 Attempting immediate sound play...");
-      playStartupSound();
+      console.log("🔊 Audio can play - attempting playback...");
+      forcePlayAudio();
     }
-  }, 1000);
+  }, { once: true });
 
   // Load second model if needed
   const secondLoader = new GLTFLoader();
