@@ -70,48 +70,46 @@ if (!iframe) {
   }
 
 // Make iframe visible on mobile after page loads
-function centerIframeOnMobile() {
+function fixIframe() {
   const iframe = document.getElementById('iframe');
   if (!iframe) return;
   
-  // Better mobile detection - check if either dimension is small OR if it's a touch device
-  const isMobile = window.innerWidth <= 768 || (window.innerWidth <= 1024 && window.innerHeight <= 1366);
+  // Always apply mobile styles - no detection needed
+  iframe.style.position = 'absolute';
+  iframe.style.zIndex = '9999';
+  iframe.style.display = 'block';
+  iframe.style.opacity = '1';
+  iframe.style.background = '#000000';
+  iframe.style.border = '2px solid #ec4899';
+  iframe.style.transform = 'none';
   
-  if (isMobile) {
-    // Check if portrait (height > width)
-    const isPortrait = window.innerHeight > window.innerWidth;
-    
-    // Apply styles one by one to ensure they stick
-    iframe.style.position = 'absolute';
-    iframe.style.zIndex = '9999';
-    iframe.style.display = 'block';
-    iframe.style.opacity = '1';
-    iframe.style.background = '#000000';
-    iframe.style.border = '2px solid #ec4899';
-    
-    if (isPortrait) {
-      iframe.style.width = '94vw';
-      iframe.style.height = '60vh';
-      iframe.style.left = '3vw';
-      iframe.style.top = '6vh';
-    } else {
-      iframe.style.width = '95vw';
-      iframe.style.height = '70vh';
-      iframe.style.left = '2.5vw';
-      iframe.style.top = '15vh';
-    }
-    
-    iframe.style.transform = 'none';
+  // Check orientation and apply positioning
+  if (window.innerHeight > window.innerWidth) {
+    // Portrait
+    iframe.style.width = '94vw';
+    iframe.style.height = '60vh';
+    iframe.style.left = '3vw';
+    iframe.style.top = '6vh';
+  } else {
+    // Landscape  
+    iframe.style.width = '95vw';
+    iframe.style.height = '70vh';
+    iframe.style.left = '2.5vw';
+    iframe.style.top = '5vh';
   }
 }
 
-// Run immediately and on events
-centerIframeOnMobile();
-window.addEventListener('load', centerIframeOnMobile);
-window.addEventListener('resize', centerIframeOnMobile);
+// Run it multiple times to ensure it works
+fixIframe();
+setTimeout(fixIframe, 100);
+setTimeout(fixIframe, 500);
+setTimeout(fixIframe, 1000);
+
+// Also run on orientation change
 window.addEventListener('orientationchange', () => {
-  setTimeout(centerIframeOnMobile, 200);
+  setTimeout(fixIframe, 300);
 });
+window.addEventListener('resize', fixIframe);
 const glow = document.createElement('div');
 glow.id = 'iframe-glow';
 glow.style.position = 'absolute';
