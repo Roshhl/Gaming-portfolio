@@ -81,9 +81,6 @@ function centerIframeOnMobile() {
     // Check if portrait (height > width)
     const isPortrait = window.innerHeight > window.innerWidth;
     
-    // Clear any existing styles first
-    iframe.style.cssText = '';
-    
     // Apply styles one by one to ensure they stick
     iframe.style.position = 'fixed';
     iframe.style.zIndex = '9999';
@@ -100,10 +97,16 @@ function centerIframeOnMobile() {
       iframe.style.height = '60vh';
     }
     
-    // Set positioning last
-    iframe.style.left = '50%';
-    iframe.style.top = '50%';
-    iframe.style.transform = 'translate(-50%, -50%)';
+    // Center it properly
+    iframe.style.left = '10vw';  // (100vw - 80vw) / 2 = 10vw for portrait
+    iframe.style.top = '25vh';   // (100vh - 50vh) / 2 = 25vh for portrait
+    iframe.style.transform = 'none'; // Remove transform to avoid conflicts
+    
+    // Adjust for landscape
+    if (!isPortrait) {
+      iframe.style.left = '15vw';  // (100vw - 70vw) / 2 = 15vw
+      iframe.style.top = '20vh';   // (100vh - 60vh) / 2 = 20vh
+    }
     
   }
 }
