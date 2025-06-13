@@ -90,11 +90,11 @@ function centerIframeOnMobile() {
     iframe.style.border = '2px solid #ec4899';
     
     if (isPortrait) {
-      // Make it more landscape - wider and shorter like desktop
-      iframe.style.width = '98vw';   // Keep full width
-      iframe.style.height = '60vh';  // Reduce height to make it more landscape (was 85vh)
-      iframe.style.left = '1vw';     // Center horizontally
-      iframe.style.top = '20vh';     // Center vertically with more space above/below
+      // Make it more landscape and properly centered
+      iframe.style.width = '94vw';   // Slightly smaller width for better centering
+      iframe.style.height = '60vh';  // Keep landscape height
+      iframe.style.left = '3vw';     // Move more to center: (100vw - 94vw) / 2 = 3vw
+      iframe.style.top = '12vh';     // Move much higher up (was 20vh, now 12vh)
     } else {
       iframe.style.width = '95vw';
       iframe.style.height = '70vh';
