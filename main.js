@@ -82,7 +82,7 @@ function centerIframeOnMobile() {
     const isPortrait = window.innerHeight > window.innerWidth;
     
     // Apply styles one by one to ensure they stick
-    iframe.style.position = 'fixed';
+    iframe.style.position = 'absolute';  // Changed from 'fixed' to 'absolute'
     iframe.style.zIndex = '9999';
     iframe.style.display = 'block';
     iframe.style.opacity = '1';
@@ -90,20 +90,18 @@ function centerIframeOnMobile() {
     iframe.style.border = '2px solid #ec4899';
     
     if (isPortrait) {
-      // Make it more landscape and properly centered
-      iframe.style.width = '94vw';   // Slightly smaller width for better centering
-      iframe.style.height = '60vh';  // Keep landscape height
-      iframe.style.left = '3vw';     // Move more to center: (100vw - 94vw) / 2 = 3vw
-      iframe.style.top = '6vh';      // Much higher up (changed from 12vh to 6vh)
+      iframe.style.width = '94vw';
+      iframe.style.height = '60vh';
+      iframe.style.left = '3vw';
+      iframe.style.top = '6vh';
     } else {
       iframe.style.width = '95vw';
       iframe.style.height = '70vh';
-      iframe.style.left = '2.5vw';   
-      iframe.style.top = '15vh';     
+      iframe.style.left = '2.5vw';
+      iframe.style.top = '15vh';
     }
     
     iframe.style.transform = 'none';
-    
   }
 }
 
