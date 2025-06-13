@@ -74,33 +74,43 @@ function fixIframe() {
   const iframe = document.getElementById('iframe');
   if (!iframe) return;
   
-  // Only apply to mobile devices - check if screen is small
-  const isMobile = window.innerWidth <= 768 || window.innerHeight <= 768;
+  // Check if we're on a small screen
+  const screenWidth = window.innerWidth;
+  const screenHeight = window.innerHeight;
+  const isMobile = screenWidth <= 768 || screenHeight <= 768 || screenWidth <= 1024;
   
   if (isMobile) {
-    // Apply mobile styles
-    iframe.style.position = 'absolute';
-    iframe.style.zIndex = '9999';
-    iframe.style.display = 'block';
-    iframe.style.opacity = '1';
-    iframe.style.background = '#000000';
-    iframe.style.border = '2px solid #ec4899';
-    iframe.style.transform = 'none';
+    // Hide iframe initially on mobile
+    iframe.style.display = 'none';
+    iframe.style.opacity = '0';
     
-    // Check orientation and apply positioning
-    if (window.innerHeight > window.innerWidth) {
-      // Portrait - force it to show
-      iframe.style.width = '90vw';
-      iframe.style.height = '50vh';
-      iframe.style.left = '5vw';
-      iframe.style.top = '10vh';
-    } else {
-      // Landscape - make it smaller
-      iframe.style.width = '80vw';   // Reduced from 95vw to 80vw
-      iframe.style.height = '60vh';  // Reduced from 70vh to 60vh
-      iframe.style.left = '10vw';    // Centered: (100vw - 80vw) / 2 = 10vw
-      iframe.style.top = '10vh';     // Higher up
-    }
+    // Wait for the 3D scene to load before showing iframe
+    setTimeout(() => {
+      // Apply mobile styles after delay
+      iframe.style.position = 'fixed';
+      iframe.style.zIndex = '9999';
+      iframe.style.display = 'block';
+      iframe.style.opacity = '1';
+      iframe.style.background = '#000000';
+      iframe.style.border = '2px solid #ec4899';
+      iframe.style.transform = 'none';
+      
+      // Check orientation and apply positioning
+      if (screenHeight > screenWidth) {
+        // Portrait - center in middle of screen
+        iframe.style.width = '90vw';
+        iframe.style.height = '50vh';
+        iframe.style.left = '5vw';       // (100vw - 90vw) / 2 = 5vw
+        iframe.style.top = '25vh';       // (100vh - 50vh) / 2 = 25vh
+      } else {
+        // Landscape - center in middle of screen
+        iframe.style.width = '80vw';
+        iframe.style.height = '60vh';
+        iframe.style.left = '10vw';      // (100vw - 80vw) / 2 = 10vw
+        iframe.style.top = '20vh';       // (100vh - 60vh) / 2 = 20vh
+      }
+    }, 3000); // Wait 3 seconds for 3D scene to load
+    
   } else {
     // Reset styles for desktop
     iframe.style.position = '';
@@ -117,13 +127,10 @@ function fixIframe() {
   }
 }
 
-// Run it multiple times to ensure it works
+// Run the function
 fixIframe();
-setTimeout(fixIframe, 100);
-setTimeout(fixIframe, 500);
-setTimeout(fixIframe, 1000);
 
-// Also run on orientation change and resize
+// Also run on orientation change
 window.addEventListener('orientationchange', () => {
   setTimeout(fixIframe, 300);
 });
