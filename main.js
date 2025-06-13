@@ -614,17 +614,17 @@ function fixIframeForMobile() {
       iframe.style.transform = 'none';
       
       if (screenHeight > screenWidth) {
-        // Portrait - moved more left and higher up
+        // Portrait - perfect as is
         iframe.style.width = '90vw';
         iframe.style.height = '50vh';
-        iframe.style.left = '0vw';   // More left (was 2vw, now 0vw)
-        iframe.style.top = '7vh';    // Higher up (was 10vh, now 7vh)
+        iframe.style.left = '0vw';
+        iframe.style.top = '7vh';
       } else {
-        // Landscape - moved more left
-        iframe.style.width = '80vw';
-        iframe.style.height = '60vh';
-        iframe.style.left = '5vw';   // More left (was 7vw, now 5vw)
-        iframe.style.top = '5vh';    // Keep same height
+        // Landscape - fit within the actual 3D scene boundaries
+        iframe.style.width = '50vw';   // Much smaller to fit within scene
+        iframe.style.height = '45vh';  // Proportional height
+        iframe.style.left = '25vw';    // Centered within the visible scene area
+        iframe.style.top = '10vh';     // Positioned within scene
       }
     }, 3000);
   }
