@@ -94,7 +94,7 @@ function centerIframeOnMobile() {
       iframe.style.width = '94vw';   // Slightly smaller width for better centering
       iframe.style.height = '60vh';  // Keep landscape height
       iframe.style.left = '3vw';     // Move more to center: (100vw - 94vw) / 2 = 3vw
-      iframe.style.top = '12vh';     // Move much higher up (was 20vh, now 12vh)
+      iframe.style.top = '6vh';      // Much higher up (changed from 12vh to 6vh)
     } else {
       iframe.style.width = '95vw';
       iframe.style.height = '70vh';
