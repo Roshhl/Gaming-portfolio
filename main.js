@@ -99,42 +99,51 @@ loader.load('/3dconsole.glb', (gltf) => {
   model.rotation.y = Math.PI;
   scene.add(model);
 
-  // Try to play sound immediately when console loads - only once
+  // Sound handling - play when interacting with iframe (resets on page load)
   let soundPlayed = false;
-  const startupSound = new Audio('sounds/consolestartsound.wav');
-  startupSound.volume = 0.8;
-  startupSound.autoplay = true;
-  startupSound.preload = 'auto';
 
-  console.log("🔊 Attempting to play startup sound immediately...");
-
-  // Try to play sound only once
-  const forcePlayAudio = () => {
+  // Simple function to play sound on iframe interaction
+  const playStartupSound = () => {
     if (soundPlayed) return;
     
-    startupSound.currentTime = 0;
-    
-    const playPromise = startupSound.play();
-    if (playPromise !== undefined) {
-      playPromise.then(() => {
-        console.log("✅ Startup sound playing successfully!");
+    try {
+      const startupSound = new Audio('/sounds/startup.wav');
+      startupSound.volume = 0.8;
+      
+      startupSound.play().then(() => {
+        console.log("✅ Startup sound playing!");
         soundPlayed = true;
+        
+        // Remove event listeners after sound plays
+        if (iframe) {
+          iframe.removeEventListener('mouseenter', playStartupSound);
+          iframe.removeEventListener('touchstart', playStartupSound);
+        }
       }).catch((error) => {
-        console.warn("❌ Autoplay blocked:", error);
+        console.warn("❌ Sound failed:", error.message);
       });
+    } catch (error) {
+      console.warn("❌ Sound error:", error);
     }
   };
 
-  // Try to play immediately
-  forcePlayAudio();
-
-  // Also try when audio is loaded (but only if not played yet)
-  startupSound.addEventListener('canplay', () => {
-    if (!soundPlayed) {
-      console.log("🔊 Audio can play - attempting playback...");
-      forcePlayAudio();
+  // Function to add sound events to iframe
+  const addSoundEventsToIframe = () => {
+    if (iframe && !soundPlayed) {
+      // Desktop: mouse enter iframe
+      iframe.addEventListener('mouseenter', playStartupSound);
+      
+      // Mobile: touch on iframe
+      iframe.addEventListener('touchstart', playStartupSound);
+      
+      console.log("🔊 Sound events added to iframe - ready to play on interaction");
     }
-  }, { once: true });
+  };
+
+  // Add sound events after iframe is created
+  setTimeout(addSoundEventsToIframe, 100);
+
+  console.log("🔊 Sound system initialized - will play when interacting with iframe...");
 
   // Load second model if needed
   const secondLoader = new GLTFLoader();
