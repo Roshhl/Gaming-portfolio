@@ -70,6 +70,22 @@ if (!iframe) {
   }
 
 // Make iframe visible on mobile after page loads
+function showIframe() {
+  const iframe = document.getElementById('iframe');
+  if (iframe && window.innerWidth <= 768) {
+    iframe.style.position = 'fixed';
+    iframe.style.display = 'block';
+    iframe.style.opacity = '1';
+    iframe.style.zIndex = '9999';
+    iframe.style.top = '8vh';
+    iframe.style.left = '3vw';
+    iframe.style.width = '94vw';
+    iframe.style.height = '60vh';
+    iframe.style.border = '2px solid #ec4899';
+  }
+}
+
+showIframe();
 
 const glow = document.createElement('div');
 glow.id = 'iframe-glow';
