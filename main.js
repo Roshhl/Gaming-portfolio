@@ -81,38 +81,56 @@ function centerIframeOnMobile() {
     // Check if portrait (height > width)
     const isPortrait = window.innerHeight > window.innerWidth;
     
-    // Apply styles one by one to ensure they stick
-    iframe.style.position = 'fixed';
-    iframe.style.zIndex = '9999';
-    iframe.style.display = 'block';
-    iframe.style.opacity = '1';
-    iframe.style.background = '#000000';
-    iframe.style.border = '2px solid #ec4899';
+    // Force clear all styles first
+    iframe.removeAttribute('style');
     
+    // Use cssText to force all styles at once
     if (isPortrait) {
-      // Make it more landscape and properly centered
-      iframe.style.width = '94vw';   // Slightly smaller width for better centering
-      iframe.style.height = '60vh';  // Keep landscape height
-      iframe.style.left = '3vw';     // Move more to center: (100vw - 94vw) / 2 = 3vw
-      iframe.style.top = '12vh';     // Move much higher up (was 20vh, now 12vh)
+      iframe.style.cssText = `
+        position: fixed !important;
+        z-index: 9999 !important;
+        display: block !important;
+        opacity: 1 !important;
+        background: #000000 !important;
+        border: 2px solid #ec4899 !important;
+        width: 94vw !important;
+        height: 60vh !important;
+        left: 3vw !important;
+        top: 8vh !important;
+        transform: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      `;
     } else {
-      iframe.style.width = '95vw';
-      iframe.style.height = '70vh';
-      iframe.style.left = '2.5vw';   
-      iframe.style.top = '15vh';     
+      iframe.style.cssText = `
+        position: fixed !important;
+        z-index: 9999 !important;
+        display: block !important;
+        opacity: 1 !important;
+        background: #000000 !important;
+        border: 2px solid #ec4899 !important;
+        width: 95vw !important;
+        height: 70vh !important;
+        left: 2.5vw !important;
+        top: 15vh !important;
+        transform: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      `;
     }
-    
-    iframe.style.transform = 'none';
-    
   }
 }
 
-// Run immediately and on events
-centerIframeOnMobile();
+// Clear and reapply immediately
+setTimeout(() => {
+  centerIframeOnMobile();
+}, 100);
+
+// Also run on events
 window.addEventListener('load', centerIframeOnMobile);
 window.addEventListener('resize', centerIframeOnMobile);
 window.addEventListener('orientationchange', () => {
-  setTimeout(centerIframeOnMobile, 200);
+  setTimeout(centerIframeOnMobile, 300);
 });
 const glow = document.createElement('div');
 glow.id = 'iframe-glow';
