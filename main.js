@@ -92,21 +92,16 @@ function centerIframeOnMobile() {
     if (isPortrait) {
       iframe.style.width = '80vw';
       iframe.style.height = '50vh';
+      iframe.style.left = '10vw';  // (100vw - 80vw) / 2 = 10vw
+      iframe.style.top = '20vh';   // Move up to center better - reduced from 30vh
     } else {
       iframe.style.width = '70vw';
       iframe.style.height = '60vh';
-    }
-    
-    // Center it properly
-    iframe.style.left = '10vw';  // (100vw - 80vw) / 2 = 10vw for portrait
-    iframe.style.top = '25vh';   // (100vh - 50vh) / 2 = 25vh for portrait
-    iframe.style.transform = 'none'; // Remove transform to avoid conflicts
-    
-    // Adjust for landscape
-    if (!isPortrait) {
       iframe.style.left = '15vw';  // (100vw - 70vw) / 2 = 15vw
       iframe.style.top = '20vh';   // (100vh - 60vh) / 2 = 20vh
     }
+    
+    iframe.style.transform = 'none'; // Remove transform to avoid conflicts
     
   }
 }
